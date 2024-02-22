@@ -182,7 +182,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   triangle: {fileID: 620260266}
-  "velocit\xE0": 20
+  "velocit\xE0": 5
 --- !u!212 &620260268
 SpriteRenderer:
   m_ObjectHideFlags: 0
