@@ -18,7 +18,7 @@ public class Triangolo : MonoBehaviour
     public float rot_acc; //accelerazione velocita' di rotazione
     private Vector3 vel;   //Vettore spostamento nave
     public Boolean flight_assist; //azzeramento automatico thruster e rotazione
-    public float flight_assist_efficiency;
+    public float flight_assist_efficiency; //efficienza meccanismo flight assist
 
     float normalize_orientation(float angle){ //notazione classica per calcolo seno e coseno
         angle += 90;
