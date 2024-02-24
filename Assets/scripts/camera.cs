@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class camera : MonoBehaviour
+public class Camera : MonoBehaviour
 {
     // Start is called before the first frame update
     private Rigidbody2D triangle;

@@ -182,7 +182,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   triangle: {fileID: 620260266}
-  "velocit\xE0": 5
+  engine_acc: 0.005
+  engine_max_vel: 5
+  engine_min_vel: -2
+  max_thruster_vel: 2
+  thruster_acc: 0.009
+  max_rot_vel: 20
+  rot_acc: 0.05
+  flight_assist: 1
+  flight_assist_efficiency: 2
 --- !u!212 &620260268
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -243,13 +251,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 620260265}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: -0.010646284, w: 0.9999433}
-  m_LocalPosition: {x: -4.82, y: -0.45, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -4.82, y: -0.13, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -1.22}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &627744325
 GameObject:
   m_ObjectHideFlags: 0
@@ -382,7 +390,7 @@ Transform:
   m_GameObject: {fileID: 627744325}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -2.29, y: 0, z: -10}
+  m_LocalPosition: {x: -4.82, y: -0.39, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
