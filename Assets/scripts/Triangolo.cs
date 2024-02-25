@@ -2,7 +2,7 @@ using System;
 using Unity.Mathematics;
 using UnityEngine;
 
-public class Triangolo : MonoBehaviour
+public class Triangolo : MonoBehaviour //COMANDI --> W/S Avanti Indietro | A/D Sinistra Destra | Q/E Rotazione destra e sinistra
 {
     public Rigidbody2D triangle;     //oggetto nave
     private float direction;   //variabile direzione nave
@@ -13,11 +13,11 @@ public class Triangolo : MonoBehaviour
     private float thruster_vel = 0; //velocita' corrente di spostamento laterale
     public float max_thruster_vel; //velocita' di spostamento laterale massima
     public float thruster_acc; //accelerazione thruster laterali
-    private float rot_vel = 0; //velocita' di rotazione corrente
-    public float max_rot_vel; //velocita' massima di rotazione
-    public float rot_acc; //accelerazione velocita' di rotazione
+    public float rot_vel; //velocita' rotazione nave
     private Vector3 vel;   //Vettore spostamento nave
+    private Vector2 partial_rot; //vettore rotazione parziale nave
     public Boolean flight_assist; //azzeramento automatico thruster e rotazione
+    public float mouse_dz_radius; //zona morta azione mouse
     public float flight_assist_efficiency; //efficienza meccanismo flight assist
 
     float normalize_orientation(float angle){ //notazione classica per calcolo seno e coseno
@@ -29,14 +29,15 @@ public class Triangolo : MonoBehaviour
         return angle;
     }
     void DEBUG_LOG(){ //messaggio di debug generale
-        Debug.Log("Vector: " + vel + " / Engine_vel: " + engine_vel + " / Direction: " + direction + " / Thruster_vel: " + thruster_vel + " / Rot_vel: " + rot_vel);
+        Debug.Log("Vector: " + vel + " / Engine_vel: " + engine_vel + " / Direction: " + direction + " / Thruster_vel: " + thruster_vel);
     }
-    Vector3 calculate_vel(float angle, Vector3 vector){ //calcola la velocita' basata sull'orientamento della nave
+    Vector3 partition_vect(float angle){ //partiziona il vettore in base all'orientamento della nave
+        Vector3 vector;vector.z = 0;
         vector.y = Mathf.Sin(angle * Mathf.Deg2Rad);    
         vector.x = Mathf.Cos(angle * Mathf.Deg2Rad);
         return vector;
     }
-    void check_vel(){ //Assicura che la velocitá rimanga nei limiti prestabiliti
+    void check_limits(){ //Assicura che la velocitá rimanga nei limiti prestabiliti
         //MOTORE PRINCIPALE
         if(engine_vel >= engine_max_vel){
             engine_vel = engine_max_vel;
@@ -51,28 +52,40 @@ public class Triangolo : MonoBehaviour
             thruster_vel = -max_thruster_vel;
         }
         
-        //THRUSTER ROTAZIONE
-        if(rot_vel >= max_rot_vel){
-            rot_vel = max_rot_vel;
-        } else if (rot_vel <= -max_rot_vel){
-            rot_vel = -max_rot_vel;
-        }
     }
     void get_real_vel(){ //somma i due vettori: Vettore motore principale + Vettore thruster laterale
-         vel *= engine_vel; //moltiplico il vettore vel per la velocita' del motore attuale
-         Vector3 thuster_vect = calculate_vel(direction + 90, vel) * thruster_vel; //calcolo il vettore perpendicolare alla direzione attuale
-         vel += thuster_vect; //sommo i due vettori e ottengo il vettore risultante
+         Vector3 engine_vector = partition_vect(direction) * engine_vel; //ottengo il vettore engine isolato moltiplicando il vettore partizionato per engine_vel
+         Vector3 thruster_vector = partition_vect(direction + 90) * thruster_vel; //ottengo il vettore thruster isolato moltiplicando il vettore partizionato per thruster_vel
+         vel = engine_vector + thruster_vector; //sommo i due vettori e ottengo il vettore risultante
+         
+    }
+    void update_vel(){ //calcola le velocita' e le mantiene nei limiti
+         check_limits();
+         get_real_vel();
     }
    
-    void rotate_ship(){
-          triangle.transform.Rotate(0,0,rot_vel * Time.deltaTime);
-    }
+   
     void update_pos(){ //modifica la posizione del triangolo sullo schermo
-         vel = calculate_vel(direction, vel);
-         check_vel();
-         get_real_vel();
-         rotate_ship();
-         triangle.MovePosition(transform.position + vel * Time.deltaTime);  //modifica la posizione
+         update_vel(); 
+         triangle.MovePosition(new Vector3(triangle.position.x, triangle.position.y) + vel * Time.deltaTime);  //modifica la posizione
+    }
+    void calculate_orientation(){ //calcola nuovo orientamento della nave in base al movimento del mouse
+         Vector3 mouse_pos = Input.mousePosition; //Ottiene posizione del mouse (Coordinate (x,y) sullo schermo)
+         mouse_pos = Camera.main.ScreenToWorldPoint(mouse_pos); //Converte la posizione relativa del mouse sullo schermo in un punto del mondo di gioco
+
+         if(distance(triangle.transform.position, mouse_pos) >= mouse_dz_radius){ //se la posizione del mouse si trova a una distanza maggiore di mouse_dz_radius allora modifica la rotazione
+               Vector2 target = new Vector2(mouse_pos.x - triangle.position.x, mouse_pos.y - triangle.position.y); //Ottiene la nuova direzione che la nave deve assumere
+               partial_rot = Vector2.Lerp(partial_rot, target, rot_vel * Time.deltaTime); //interpola linearmente tra i due vettori, per ottenere un effetto "smooth" della rotazione
+               triangle.transform.up = partial_rot; //modifica la rotazione della nave con il valore parziale interpolato
+         }
+         
+    }
+
+    float distance(Vector3 obj1, Vector3 obj2){ //calcola la distanza tra due punti usando pitagora
+        float cat1 = obj1.x - obj2.x;
+        float cat2 = obj1.y - obj2.y;
+        float distance = Mathf.Sqrt(Mathf.Pow(cat1,2) + Mathf.Pow(cat2, 2));
+        return distance;
     }
 
     void handle_inputs(){ //gestisce gli input dell'utente
@@ -80,18 +93,18 @@ public class Triangolo : MonoBehaviour
 
          if(Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.S)){ //movimento avanti e indietro
              if (Input.GetKey(KeyCode.S)){ //indietro
-                  engine_vel -= engine_acc;
+                  engine_vel -= engine_acc; //decelerazione motore
              } else { //avanti
-                  engine_vel += engine_acc;
+                  engine_vel += engine_acc; //accelerazione motore
              }
              
          }
 
          if(Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D)){ //movimento destra e sinistra
             if (Input.GetKey(KeyCode.D)){ 
-                thruster_vel -= thruster_acc; //ottiene direzione perpendicolare alla direzione attuale(verso destra)
+                thruster_vel -= thruster_acc; //decelerazione thruster(verso destra)
             }else {   
-                thruster_vel += thruster_acc; //ottiene direzione perpendicolare alla direzione attuale(verso sinistra)
+                thruster_vel += thruster_acc; //accelerazione thruster(verso sinistra)
             }
          } else{
             if(flight_assist){ //azzerazione progressiva del thruster laterale
@@ -99,25 +112,18 @@ public class Triangolo : MonoBehaviour
             }
          }
 
-         if(Input.GetKey(KeyCode.Q) || Input.GetKey(KeyCode.E)){ //rotazione assiale nave
-            if (Input.GetKey(KeyCode.E)){ //rotazione verso destra
-                  rot_vel -= rot_acc;
-            } else { //rotazione verso sinistra
-                  rot_vel += rot_acc;
-            }
-         } else {
-            if(flight_assist){ //azzerazione progressiva del thruster di rotazione
-                rot_vel = Mathf.Lerp(rot_vel, 0f, flight_assist_efficiency * Time.deltaTime);
-            }
-         }
+         //il mouse e' considerato come un input continuo 
+
 
 
     }
     void Start(){ //eseguito solo una volta
-       
+    
     }
     void FixedUpdate(){ //aggiorna tutti gli oggetti legati alla fisica di gioco
-         update_pos();    
+         update_pos(); 
+         calculate_orientation();   
+         
     }
 
     void Update(){ //aggiorna il mondo di gioco generale
