@@ -2,7 +2,7 @@ using System;
 using Unity.Mathematics;
 using UnityEngine;
 
-public class Triangolo : MonoBehaviour //COMANDI --> W/S Avanti Indietro | A/D Sinistra Destra | Q/E Rotazione destra e sinistra
+public class Triangolo : MonoBehaviour //COMANDI --> W/S Acc. Avanti e indientro | A/D Acc. Destra e Sinistra | MOUSE Rotazione destra e sinistra
 {
     public Rigidbody2D triangle;     //oggetto nave
     private float direction;   //variabile direzione nave

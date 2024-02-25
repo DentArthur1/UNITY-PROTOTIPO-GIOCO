@@ -187,7 +187,7 @@ MonoBehaviour:
   engine_min_vel: -2
   max_thruster_vel: 1
   thruster_acc: 0.003
-  rot_vel: 0.7
+  rot_vel: 1
   flight_assist: 1
   mouse_dz_radius: 1.5
   flight_assist_efficiency: 2
