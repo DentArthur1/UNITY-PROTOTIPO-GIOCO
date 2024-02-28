@@ -9,6 +9,7 @@ public class View : MonoBehaviour //SCRIPT PER IL MOVIMENTO DELLA VIDEOCAMERA PR
     public float offset_x;
     public float offset_y;
     public float smooth_follow; //costante per la velocita' di risposta della camera al movimento del target
+
     void Start()
     {
 
@@ -18,6 +19,6 @@ public class View : MonoBehaviour //SCRIPT PER IL MOVIMENTO DELLA VIDEOCAMERA PR
     void Update()
     {
         Vector3 off_set_target = new Vector3(target.position.x + offset_x, target.position.y + offset_y, 0);
-        main_cam.transform.position = Vector3.Lerp(main_cam.transform.position, off_set_target, Time.deltaTime * smooth_follow); //interpola linearmente il valore della posizione della camera tra quello attuale e il target
+        main_cam.transform.position = Vector3.MoveTowards(main_cam.transform.position, off_set_target, Time.deltaTime * smooth_follow); //interpola linearmente il valore della posizione della camera tra quello attuale e il target
     }
 }
