@@ -14,7 +14,7 @@ public class Triangolo : MonoBehaviour //COMANDI --> W/S Acc. Avanti e indientro
     public float engine_acc;  //accelerazione spostamento generale
     public float engine_max_vel; //velocita' spostamento massima
     public float engine_min_vel; //velocita' massima di retromarcia
-    private float engine_vel = 0; //velocita' corrente della nave
+    public float engine_vel = 0; //velocita' corrente della nave
     public float engine_dead_zone; //intervallo di velocita' nel quale il flight_assist opera per automaticamente azzerare la velocita'
     private float last_engine_vel = 0; //velocita' engine al momento dell'attivazione del boost(per tornare a quel punto dopo che il booster ha finito)
     //BOOSTER
@@ -38,12 +38,12 @@ public class Triangolo : MonoBehaviour //COMANDI --> W/S Acc. Avanti e indientro
     private Boolean lat_unboost_bool = false; //booleano che indica se il de-boost laterale e' attivo
     //THRUSTER
     public float thruster_acc; //accelerazione thruster laterali
-    private float thruster_vel = 0; //velocita' corrente di spostamento laterale
+    public float thruster_vel = 0; //velocita' corrente di spostamento laterale
     public float max_thruster_vel; //velocita' di spostamento laterale massima
     private float last_thruster_vel; //usata per il booster laterale
     //DIRECTION
     public float rot_vel; //velocita' rotazione nave
-    private Vector3 vel;   //Vettore spostamento nave 
+    public Vector3 vel;   //Vettore spostamento nave 
     public Boolean flight_assist; //azzeramento automatico thruster e rotazione
     public float flight_assist_efficiency; //efficienza meccanismo flight assist
     public float direction; //variabile direzione nave(angolo)
@@ -52,7 +52,7 @@ public class Triangolo : MonoBehaviour //COMANDI --> W/S Acc. Avanti e indientro
     public float bullet_cooldown_time; //tempo di cooldown tra un proiettile e l'altro(non troppo piccolo)
     private float wep_time; //tempo prima che si puo' sparare
     //Testo a schermo
-    public Text vector, engine, thruster, weapon, boost, lat_boost, boost_boolean, unboost_boolean, latboost_boolean, latunboost_boolean, flight_assist_boolean; //variabili testo
+    public Text vector, engine, thruster, weapon, boost, lat_boost, boost_boolean, unboost_boolean, latboost_boolean, latunboost_boolean, flight_assist_boolean, FPS; //variabili testo
 
     void DEBUG_LOG(){ //messaggio di debug generale
         Debug.Log("Vector: " + vel + " / Engine_vel: " + engine_vel + " / Direction: " + direction + " / Thruster_vel: " + thruster_vel + " / Cooldown: " + wep_time);
@@ -62,7 +62,7 @@ public class Triangolo : MonoBehaviour //COMANDI --> W/S Acc. Avanti e indientro
     {
         vector.text = "Vec: " + triangle.velocity;engine.text = "Eng: " + engine_vel; thruster.text = "Thr: " + thruster_vel; weapon.text = "Wep: " + wep_time; boost.text = "Boost: " + boost_time; lat_boost.text = "Lat Boost: " + lat_boost_time;
         boost_boolean.text = "Boost bool: " + boost_bool; unboost_boolean.text = "Unboost bool: " + unboost_bool; latboost_boolean.text = "Lat boost bool: " + lat_boost_bool; latunboost_boolean.text = "Lat unboost bool: " + lat_unboost_bool;
-        flight_assist_boolean.text = "Flight assist: " + flight_assist;
+        flight_assist_boolean.text = "Flight assist: " + flight_assist; FPS.text = "FPS: " + 1f / Time.deltaTime;
     }
 
     void check_limits(){ //Assicura che la velocitá rimanga nei limiti prestabiliti
