@@ -1,0 +1,1645 @@
+fileFormatVersion: 2
+guid: b3b9551af312f7b489a7557f9434ed18
+TextureImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 12
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 16
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: pokemon_legends___rei_overworld_sprite_by_zender1752_deezppe-removebg-preview_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 221
+        width: 28
+        height: 29
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fb19ee731892b9347bdfda72bfe81c86
+      internalID: 784064738
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pokemon_legends___rei_overworld_sprite_by_zender1752_deezppe-removebg-preview_1
+      rect:
+        serializedVersion: 2
+        x: 28
+        y: 221
+        width: 27
+        height: 29
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e929c46df2aa8cf439c595819ecc0c8a
+      internalID: 934103463
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pokemon_legends___rei_overworld_sprite_by_zender1752_deezppe-removebg-preview_2
+      rect:
+        serializedVersion: 2
+        x: 55
+        y: 221
+        width: 26
+        height: 29
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 920542f82ef9de147b1615553e61bee3
+      internalID: -1014766353
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pokemon_legends___rei_overworld_sprite_by_zender1752_deezppe-removebg-preview_3
+      rect:
+        serializedVersion: 2
+        x: 81
+        y: 221.375
+        width: 27.88889
+        height: 31.625
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7f00b54b61f774449b8d579f13c2cc9a
+      internalID: -1136858255
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pokemon_legends___rei_overworld_sprite_by_zender1752_deezppe-removebg-preview_4
+      rect:
+        serializedVersion: 2
+        x: 108
+        y: 221.375
+        width: 27.88889
+        height: 31.625
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0adde30c33d507e49ad9bea68eef86b3
+      internalID: -797773138
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pokemon_legends___rei_overworld_sprite_by_zender1752_deezppe-removebg-preview_5
+      rect:
+        serializedVersion: 2
+        x: 135
+        y: 221.375
+        width: 27.88889
+        height: 31.625
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 97b9fdef80c192440ad3b159afe6b224
+      internalID: -744338769
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pokemon_legends___rei_overworld_sprite_by_zender1752_deezppe-removebg-preview_6
+      rect:
+        serializedVersion: 2
+        x: 162
+        y: 221.375
+        width: 27.88889
+        height: 31.625
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5041afc3f8de14045be4eba0c2677042
+      internalID: 1119345099
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pokemon_legends___rei_overworld_sprite_by_zender1752_deezppe-removebg-preview_7
+      rect:
+        serializedVersion: 2
+        x: 189
+        y: 221.375
+        width: 27.88889
+        height: 31.625
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c6545744f3f24564b84fb2e9bbe47beb
+      internalID: -1811338297
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pokemon_legends___rei_overworld_sprite_by_zender1752_deezppe-removebg-preview_8
+      rect:
+        serializedVersion: 2
+        x: 216
+        y: 221.375
+        width: 27.88889
+        height: 31.625
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 043bf3345703aec4d85a687b24002cb8
+      internalID: 159129806
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pokemon_legends___rei_overworld_sprite_by_zender1752_deezppe-removebg-preview_9
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 189
+        width: 28
+        height: 29
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 05255da9a912de34294a7c15d9de290c
+      internalID: -768533043
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pokemon_legends___rei_overworld_sprite_by_zender1752_deezppe-removebg-preview_10
+      rect:
+        serializedVersion: 2
+        x: 28
+        y: 189
+        width: 27
+        height: 29
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 44aea4abb9beecf42ab5126bd85b896f
+      internalID: 50070272
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pokemon_legends___rei_overworld_sprite_by_zender1752_deezppe-removebg-preview_11
+      rect:
+        serializedVersion: 2
+        x: 55
+        y: 189
+        width: 26
+        height: 29
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f1765e2db59fd4446b1d0a20fa4cef0c
+      internalID: 109761065
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pokemon_legends___rei_overworld_sprite_by_zender1752_deezppe-removebg-preview_12
+      rect:
+        serializedVersion: 2
+        x: 81
+        y: 190.375
+        width: 27.88889
+        height: 31.625
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6eba125163a7b184393d458f5577b6d0
+      internalID: -1689956614
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pokemon_legends___rei_overworld_sprite_by_zender1752_deezppe-removebg-preview_13
+      rect:
+        serializedVersion: 2
+        x: 108
+        y: 190.375
+        width: 27.88889
+        height: 31.625
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1021357a307b18d4dafe8864336ae2f9
+      internalID: 2050493804
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pokemon_legends___rei_overworld_sprite_by_zender1752_deezppe-removebg-preview_14
+      rect:
+        serializedVersion: 2
+        x: 135
+        y: 190.375
+        width: 27.88889
+        height: 31.625
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 48333166312f4d74f85092056b68fea4
+      internalID: 1177011026
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pokemon_legends___rei_overworld_sprite_by_zender1752_deezppe-removebg-preview_15
+      rect:
+        serializedVersion: 2
+        x: 162
+        y: 190.375
+        width: 27.88889
+        height: 31.625
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b3f5bd21606fa904e8107aa8aa8f2d5f
+      internalID: -229035003
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pokemon_legends___rei_overworld_sprite_by_zender1752_deezppe-removebg-preview_16
+      rect:
+        serializedVersion: 2
+        x: 189
+        y: 190.375
+        width: 27.88889
+        height: 31.625
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b281c64973faaf54aa1aa4305cecc69e
+      internalID: 1157585455
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pokemon_legends___rei_overworld_sprite_by_zender1752_deezppe-removebg-preview_17
+      rect:
+        serializedVersion: 2
+        x: 216
+        y: 190.375
+        width: 27.88889
+        height: 31.625
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 66167e62edf1e9548b96a861ad7e2382
+      internalID: -2094282702
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pokemon_legends___rei_overworld_sprite_by_zender1752_deezppe-removebg-preview_18
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 158
+        width: 28
+        height: 27
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ae21d9ea0b480c54ea19ff66d40f07f9
+      internalID: 432743161
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pokemon_legends___rei_overworld_sprite_by_zender1752_deezppe-removebg-preview_19
+      rect:
+        serializedVersion: 2
+        x: 28
+        y: 158
+        width: 27
+        height: 27
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4540608875a24034f8413b6a6b1843f4
+      internalID: 1889531950
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pokemon_legends___rei_overworld_sprite_by_zender1752_deezppe-removebg-preview_20
+      rect:
+        serializedVersion: 2
+        x: 55
+        y: 158
+        width: 26
+        height: 27
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0e56d7c2cb4937d4c8a3d0e199531f86
+      internalID: -798439751
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pokemon_legends___rei_overworld_sprite_by_zender1752_deezppe-removebg-preview_21
+      rect:
+        serializedVersion: 2
+        x: 81
+        y: 159.375
+        width: 27.88889
+        height: 31.625
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7365f3717ac3d7846bca36185429ed6b
+      internalID: -473445241
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pokemon_legends___rei_overworld_sprite_by_zender1752_deezppe-removebg-preview_22
+      rect:
+        serializedVersion: 2
+        x: 108
+        y: 159.375
+        width: 27.88889
+        height: 31.625
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c43382595dfa36b4abca6cb2907c92f9
+      internalID: 281335178
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pokemon_legends___rei_overworld_sprite_by_zender1752_deezppe-removebg-preview_23
+      rect:
+        serializedVersion: 2
+        x: 135
+        y: 159.375
+        width: 27.88889
+        height: 31.625
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c3e8836bd6188e0419118e709917e6d5
+      internalID: 2011959893
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pokemon_legends___rei_overworld_sprite_by_zender1752_deezppe-removebg-preview_24
+      rect:
+        serializedVersion: 2
+        x: 162
+        y: 159.375
+        width: 27.88889
+        height: 31.625
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5f22f14f38036924391c3032ea355a8e
+      internalID: -1129567829
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pokemon_legends___rei_overworld_sprite_by_zender1752_deezppe-removebg-preview_25
+      rect:
+        serializedVersion: 2
+        x: 189
+        y: 159.375
+        width: 27.88889
+        height: 31.625
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e73ffcf9fd0572f48a3e792525d0f390
+      internalID: -1015114949
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pokemon_legends___rei_overworld_sprite_by_zender1752_deezppe-removebg-preview_26
+      rect:
+        serializedVersion: 2
+        x: 216
+        y: 159.375
+        width: 27.88889
+        height: 31.625
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 050e79e2e28952441826d0808fe54e1e
+      internalID: 2085625347
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pokemon_legends___rei_overworld_sprite_by_zender1752_deezppe-removebg-preview_27
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 127
+        width: 28
+        height: 27
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ee16abc68a0a465459530920d6152193
+      internalID: 1632265594
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pokemon_legends___rei_overworld_sprite_by_zender1752_deezppe-removebg-preview_28
+      rect:
+        serializedVersion: 2
+        x: 28
+        y: 127
+        width: 27
+        height: 27
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 230db3dde3db689468fc89e66843a9ee
+      internalID: -859445316
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pokemon_legends___rei_overworld_sprite_by_zender1752_deezppe-removebg-preview_29
+      rect:
+        serializedVersion: 2
+        x: 55
+        y: 127
+        width: 26
+        height: 27
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 66a0ccdbf9800d94fb44f2a1606138db
+      internalID: -827988772
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pokemon_legends___rei_overworld_sprite_by_zender1752_deezppe-removebg-preview_30
+      rect:
+        serializedVersion: 2
+        x: 81
+        y: 128.375
+        width: 27.88889
+        height: 31.625
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 213614015c7dbbe419062a7c46519ee9
+      internalID: -1002168146
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pokemon_legends___rei_overworld_sprite_by_zender1752_deezppe-removebg-preview_31
+      rect:
+        serializedVersion: 2
+        x: 108
+        y: 128.375
+        width: 27.88889
+        height: 31.625
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f52cc77304d3e2b4695f39ede9225d45
+      internalID: -1822329229
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pokemon_legends___rei_overworld_sprite_by_zender1752_deezppe-removebg-preview_32
+      rect:
+        serializedVersion: 2
+        x: 135
+        y: 128.375
+        width: 27.88889
+        height: 31.625
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0d5f6b8f74dd3974e87b227e6859bc22
+      internalID: -553012569
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pokemon_legends___rei_overworld_sprite_by_zender1752_deezppe-removebg-preview_33
+      rect:
+        serializedVersion: 2
+        x: 162
+        y: 128.375
+        width: 27.88889
+        height: 31.625
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7abbcec864f1c7f40aca2d6c6d859c2d
+      internalID: 953590067
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pokemon_legends___rei_overworld_sprite_by_zender1752_deezppe-removebg-preview_34
+      rect:
+        serializedVersion: 2
+        x: 189
+        y: 128.375
+        width: 27.88889
+        height: 31.625
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3ded2ea69a1426544ad461de30184deb
+      internalID: -1841502663
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pokemon_legends___rei_overworld_sprite_by_zender1752_deezppe-removebg-preview_35
+      rect:
+        serializedVersion: 2
+        x: 216
+        y: 128.375
+        width: 27.88889
+        height: 31.625
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7775698367d9627459d163317ea088ac
+      internalID: -340469317
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pokemon_legends___rei_overworld_sprite_by_zender1752_deezppe-removebg-preview_36
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 97.375
+        width: 27.88889
+        height: 31.625
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c755079dd29b7ec4d9a4f33a4624ef5f
+      internalID: 1290959444
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pokemon_legends___rei_overworld_sprite_by_zender1752_deezppe-removebg-preview_37
+      rect:
+        serializedVersion: 2
+        x: 27
+        y: 97
+        width: 28
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7d029d807b7347c42a887060f13e54f6
+      internalID: 1489607721
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pokemon_legends___rei_overworld_sprite_by_zender1752_deezppe-removebg-preview_38
+      rect:
+        serializedVersion: 2
+        x: 54
+        y: 97.375
+        width: 27.88889
+        height: 31.625
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f70239d12d5adf349b27974b7c4b0cd5
+      internalID: 1960221507
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pokemon_legends___rei_overworld_sprite_by_zender1752_deezppe-removebg-preview_39
+      rect:
+        serializedVersion: 2
+        x: 81
+        y: 97.375
+        width: 27.88889
+        height: 31.625
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c16137d7ea373824ca5b2da4ed5ef098
+      internalID: 953352224
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pokemon_legends___rei_overworld_sprite_by_zender1752_deezppe-removebg-preview_40
+      rect:
+        serializedVersion: 2
+        x: 108
+        y: 97
+        width: 28
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d53137623655ad04cb6a52b4e56f999a
+      internalID: -1591654392
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pokemon_legends___rei_overworld_sprite_by_zender1752_deezppe-removebg-preview_41
+      rect:
+        serializedVersion: 2
+        x: 135
+        y: 97.375
+        width: 27.88889
+        height: 31.625
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fafbbcc000b64814287c5aa6b65eadc7
+      internalID: -1742423638
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pokemon_legends___rei_overworld_sprite_by_zender1752_deezppe-removebg-preview_42
+      rect:
+        serializedVersion: 2
+        x: 162
+        y: 97.375
+        width: 27.88889
+        height: 31.625
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 51df5bff9fc6b644aaea7f8e170fce55
+      internalID: 93567499
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pokemon_legends___rei_overworld_sprite_by_zender1752_deezppe-removebg-preview_43
+      rect:
+        serializedVersion: 2
+        x: 189
+        y: 97.375
+        width: 27.88889
+        height: 31.625
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ef3ad78c20fe10342b0f5e60580ea228
+      internalID: -247484821
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pokemon_legends___rei_overworld_sprite_by_zender1752_deezppe-removebg-preview_44
+      rect:
+        serializedVersion: 2
+        x: 216
+        y: 97.375
+        width: 27.88889
+        height: 31.625
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 72c122d880c90cf42824be7fc959cc4c
+      internalID: 183098317
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pokemon_legends___rei_overworld_sprite_by_zender1752_deezppe-removebg-preview_45
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 66.375
+        width: 27.88889
+        height: 31.625
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 287bbaca6b6f1f5429ea49431d4cd26e
+      internalID: -1479829241
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pokemon_legends___rei_overworld_sprite_by_zender1752_deezppe-removebg-preview_46
+      rect:
+        serializedVersion: 2
+        x: 27
+        y: 66.375
+        width: 27.88889
+        height: 31.625
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 94560d1f9dac30a408a2b973131978e2
+      internalID: -694955395
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pokemon_legends___rei_overworld_sprite_by_zender1752_deezppe-removebg-preview_47
+      rect:
+        serializedVersion: 2
+        x: 54
+        y: 66
+        width: 28
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6f841e28e08468047b95e91ada661cba
+      internalID: -907752586
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pokemon_legends___rei_overworld_sprite_by_zender1752_deezppe-removebg-preview_48
+      rect:
+        serializedVersion: 2
+        x: 81
+        y: 66.375
+        width: 27.88889
+        height: 31.625
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9f24754fbb1ce8348a02808d5b1d5958
+      internalID: -1169665437
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pokemon_legends___rei_overworld_sprite_by_zender1752_deezppe-removebg-preview_49
+      rect:
+        serializedVersion: 2
+        x: 108
+        y: 66.375
+        width: 27.88889
+        height: 31.625
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d33d19818c6fdef4ba494f0928711b39
+      internalID: -194005956
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pokemon_legends___rei_overworld_sprite_by_zender1752_deezppe-removebg-preview_50
+      rect:
+        serializedVersion: 2
+        x: 135
+        y: 66.375
+        width: 27.88889
+        height: 31.625
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 877ff059a16fce04f9b0da09b30288cf
+      internalID: -737473670
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pokemon_legends___rei_overworld_sprite_by_zender1752_deezppe-removebg-preview_51
+      rect:
+        serializedVersion: 2
+        x: 162
+        y: 66.375
+        width: 27.88889
+        height: 31.625
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cebcc39f158d2534294b04c2dee83bcf
+      internalID: 121100658
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pokemon_legends___rei_overworld_sprite_by_zender1752_deezppe-removebg-preview_52
+      rect:
+        serializedVersion: 2
+        x: 189
+        y: 66.375
+        width: 27.88889
+        height: 31.625
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 83a6f1b576a25b3448ceb4462c5d9a5e
+      internalID: -1079290871
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pokemon_legends___rei_overworld_sprite_by_zender1752_deezppe-removebg-preview_53
+      rect:
+        serializedVersion: 2
+        x: 216
+        y: 66.375
+        width: 27.88889
+        height: 31.625
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8e80d66484e3da741a2add6bc4933bae
+      internalID: 1325947233
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pokemon_legends___rei_overworld_sprite_by_zender1752_deezppe-removebg-preview_54
+      rect:
+        serializedVersion: 2
+        x: 54
+        y: 35.375
+        width: 27.88889
+        height: 31.625
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7e7a8d22472b4ba4fa43443a6939cba0
+      internalID: 1732318890
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pokemon_legends___rei_overworld_sprite_by_zender1752_deezppe-removebg-preview_55
+      rect:
+        serializedVersion: 2
+        x: 81
+        y: 35.375
+        width: 27.88889
+        height: 31.625
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1af36eed5d2524f47beebdc0c2c575a0
+      internalID: -288728753
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pokemon_legends___rei_overworld_sprite_by_zender1752_deezppe-removebg-preview_56
+      rect:
+        serializedVersion: 2
+        x: 108
+        y: 35.375
+        width: 27.88889
+        height: 31.625
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3633ab19228b5994c81fc40f841ce2c4
+      internalID: -942897599
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pokemon_legends___rei_overworld_sprite_by_zender1752_deezppe-removebg-preview_57
+      rect:
+        serializedVersion: 2
+        x: 135
+        y: 35.375
+        width: 27.88889
+        height: 31.625
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dc3c341a8b4010749921662ccf5b050e
+      internalID: 957250760
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pokemon_legends___rei_overworld_sprite_by_zender1752_deezppe-removebg-preview_58
+      rect:
+        serializedVersion: 2
+        x: 162
+        y: 35.375
+        width: 27.88889
+        height: 31.625
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 666cc7a5722a8944681258e7c5632187
+      internalID: 379722251
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pokemon_legends___rei_overworld_sprite_by_zender1752_deezppe-removebg-preview_59
+      rect:
+        serializedVersion: 2
+        x: 189
+        y: 35.375
+        width: 27.88889
+        height: 31.625
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2e4095302c9f41348b3fbdac17ffbf75
+      internalID: 1060843793
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pokemon_legends___rei_overworld_sprite_by_zender1752_deezppe-removebg-preview_60
+      rect:
+        serializedVersion: 2
+        x: 216
+        y: 35.375
+        width: 27.88889
+        height: 31.625
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 531b28b6f2a01424f8331d5cef758c8b
+      internalID: -1339511285
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pokemon_legends___rei_overworld_sprite_by_zender1752_deezppe-removebg-preview_61
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 4.375
+        width: 27.88889
+        height: 31.625
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d62af9fa516d3f446b2783d540534a42
+      internalID: -1977901802
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pokemon_legends___rei_overworld_sprite_by_zender1752_deezppe-removebg-preview_62
+      rect:
+        serializedVersion: 2
+        x: 27
+        y: 4.375
+        width: 27.88889
+        height: 31.625
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 86bc23ae22745e1478becf412db43795
+      internalID: 1720704243
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pokemon_legends___rei_overworld_sprite_by_zender1752_deezppe-removebg-preview_63
+      rect:
+        serializedVersion: 2
+        x: 81
+        y: 4.375
+        width: 27.88889
+        height: 31.625
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0905ec538c8b41c4d821c0cd996a407f
+      internalID: 1435623592
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pokemon_legends___rei_overworld_sprite_by_zender1752_deezppe-removebg-preview_64
+      rect:
+        serializedVersion: 2
+        x: 108
+        y: 4.375
+        width: 27.88889
+        height: 31.625
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1fc3f1582bfbb3e49a744170b49812b1
+      internalID: -1705175639
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pokemon_legends___rei_overworld_sprite_by_zender1752_deezppe-removebg-preview_65
+      rect:
+        serializedVersion: 2
+        x: 135
+        y: 4.375
+        width: 27.88889
+        height: 31.625
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d059dd6a3c01e6f4787cdd4d4fed8ee3
+      internalID: 242980437
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pokemon_legends___rei_overworld_sprite_by_zender1752_deezppe-removebg-preview_66
+      rect:
+        serializedVersion: 2
+        x: 162
+        y: 4.375
+        width: 27.88889
+        height: 31.625
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0b42d45df64d99d4da5a624551ff9d1a
+      internalID: -986302413
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pokemon_legends___rei_overworld_sprite_by_zender1752_deezppe-removebg-preview_67
+      rect:
+        serializedVersion: 2
+        x: 189
+        y: 4.375
+        width: 27.88889
+        height: 31.625
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b1dbfbb21a38aad41a9c30ccd5be71a2
+      internalID: -1646964026
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pokemon_legends___rei_overworld_sprite_by_zender1752_deezppe-removebg-preview_68
+      rect:
+        serializedVersion: 2
+        x: 216
+        y: 4.375
+        width: 27.88889
+        height: 31.625
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e8a6618335fee224b8719675eb7e6192
+      internalID: -1149964132
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    nameFileIdTable:
+      pokemon_legends___rei_overworld_sprite_by_zender1752_deezppe-removebg-preview_0: 784064738
+      pokemon_legends___rei_overworld_sprite_by_zender1752_deezppe-removebg-preview_1: 934103463
+      pokemon_legends___rei_overworld_sprite_by_zender1752_deezppe-removebg-preview_10: 50070272
+      pokemon_legends___rei_overworld_sprite_by_zender1752_deezppe-removebg-preview_11: 109761065
+      pokemon_legends___rei_overworld_sprite_by_zender1752_deezppe-removebg-preview_12: -1689956614
+      pokemon_legends___rei_overworld_sprite_by_zender1752_deezppe-removebg-preview_13: 2050493804
+      pokemon_legends___rei_overworld_sprite_by_zender1752_deezppe-removebg-preview_14: 1177011026
+      pokemon_legends___rei_overworld_sprite_by_zender1752_deezppe-removebg-preview_15: -229035003
+      pokemon_legends___rei_overworld_sprite_by_zender1752_deezppe-removebg-preview_16: 1157585455
+      pokemon_legends___rei_overworld_sprite_by_zender1752_deezppe-removebg-preview_17: -2094282702
+      pokemon_legends___rei_overworld_sprite_by_zender1752_deezppe-removebg-preview_18: 432743161
+      pokemon_legends___rei_overworld_sprite_by_zender1752_deezppe-removebg-preview_19: 1889531950
+      pokemon_legends___rei_overworld_sprite_by_zender1752_deezppe-removebg-preview_2: -1014766353
+      pokemon_legends___rei_overworld_sprite_by_zender1752_deezppe-removebg-preview_20: -798439751
+      pokemon_legends___rei_overworld_sprite_by_zender1752_deezppe-removebg-preview_21: -473445241
+      pokemon_legends___rei_overworld_sprite_by_zender1752_deezppe-removebg-preview_22: 281335178
+      pokemon_legends___rei_overworld_sprite_by_zender1752_deezppe-removebg-preview_23: 2011959893
+      pokemon_legends___rei_overworld_sprite_by_zender1752_deezppe-removebg-preview_24: -1129567829
+      pokemon_legends___rei_overworld_sprite_by_zender1752_deezppe-removebg-preview_25: -1015114949
+      pokemon_legends___rei_overworld_sprite_by_zender1752_deezppe-removebg-preview_26: 2085625347
+      pokemon_legends___rei_overworld_sprite_by_zender1752_deezppe-removebg-preview_27: 1632265594
+      pokemon_legends___rei_overworld_sprite_by_zender1752_deezppe-removebg-preview_28: -859445316
+      pokemon_legends___rei_overworld_sprite_by_zender1752_deezppe-removebg-preview_29: -827988772
+      pokemon_legends___rei_overworld_sprite_by_zender1752_deezppe-removebg-preview_3: -1136858255
+      pokemon_legends___rei_overworld_sprite_by_zender1752_deezppe-removebg-preview_30: -1002168146
+      pokemon_legends___rei_overworld_sprite_by_zender1752_deezppe-removebg-preview_31: -1822329229
+      pokemon_legends___rei_overworld_sprite_by_zender1752_deezppe-removebg-preview_32: -553012569
+      pokemon_legends___rei_overworld_sprite_by_zender1752_deezppe-removebg-preview_33: 953590067
+      pokemon_legends___rei_overworld_sprite_by_zender1752_deezppe-removebg-preview_34: -1841502663
+      pokemon_legends___rei_overworld_sprite_by_zender1752_deezppe-removebg-preview_35: -340469317
+      pokemon_legends___rei_overworld_sprite_by_zender1752_deezppe-removebg-preview_36: 1290959444
+      pokemon_legends___rei_overworld_sprite_by_zender1752_deezppe-removebg-preview_37: 1489607721
+      pokemon_legends___rei_overworld_sprite_by_zender1752_deezppe-removebg-preview_38: 1960221507
+      pokemon_legends___rei_overworld_sprite_by_zender1752_deezppe-removebg-preview_39: 953352224
+      pokemon_legends___rei_overworld_sprite_by_zender1752_deezppe-removebg-preview_4: -797773138
+      pokemon_legends___rei_overworld_sprite_by_zender1752_deezppe-removebg-preview_40: -1591654392
+      pokemon_legends___rei_overworld_sprite_by_zender1752_deezppe-removebg-preview_41: -1742423638
+      pokemon_legends___rei_overworld_sprite_by_zender1752_deezppe-removebg-preview_42: 93567499
+      pokemon_legends___rei_overworld_sprite_by_zender1752_deezppe-removebg-preview_43: -247484821
+      pokemon_legends___rei_overworld_sprite_by_zender1752_deezppe-removebg-preview_44: 183098317
+      pokemon_legends___rei_overworld_sprite_by_zender1752_deezppe-removebg-preview_45: -1479829241
+      pokemon_legends___rei_overworld_sprite_by_zender1752_deezppe-removebg-preview_46: -694955395
+      pokemon_legends___rei_overworld_sprite_by_zender1752_deezppe-removebg-preview_47: -907752586
+      pokemon_legends___rei_overworld_sprite_by_zender1752_deezppe-removebg-preview_48: -1169665437
+      pokemon_legends___rei_overworld_sprite_by_zender1752_deezppe-removebg-preview_49: -194005956
+      pokemon_legends___rei_overworld_sprite_by_zender1752_deezppe-removebg-preview_5: -744338769
+      pokemon_legends___rei_overworld_sprite_by_zender1752_deezppe-removebg-preview_50: -737473670
+      pokemon_legends___rei_overworld_sprite_by_zender1752_deezppe-removebg-preview_51: 121100658
+      pokemon_legends___rei_overworld_sprite_by_zender1752_deezppe-removebg-preview_52: -1079290871
+      pokemon_legends___rei_overworld_sprite_by_zender1752_deezppe-removebg-preview_53: 1325947233
+      pokemon_legends___rei_overworld_sprite_by_zender1752_deezppe-removebg-preview_54: 1732318890
+      pokemon_legends___rei_overworld_sprite_by_zender1752_deezppe-removebg-preview_55: -288728753
+      pokemon_legends___rei_overworld_sprite_by_zender1752_deezppe-removebg-preview_56: -942897599
+      pokemon_legends___rei_overworld_sprite_by_zender1752_deezppe-removebg-preview_57: 957250760
+      pokemon_legends___rei_overworld_sprite_by_zender1752_deezppe-removebg-preview_58: 379722251
+      pokemon_legends___rei_overworld_sprite_by_zender1752_deezppe-removebg-preview_59: 1060843793
+      pokemon_legends___rei_overworld_sprite_by_zender1752_deezppe-removebg-preview_6: 1119345099
+      pokemon_legends___rei_overworld_sprite_by_zender1752_deezppe-removebg-preview_60: -1339511285
+      pokemon_legends___rei_overworld_sprite_by_zender1752_deezppe-removebg-preview_61: -1977901802
+      pokemon_legends___rei_overworld_sprite_by_zender1752_deezppe-removebg-preview_62: 1720704243
+      pokemon_legends___rei_overworld_sprite_by_zender1752_deezppe-removebg-preview_63: 1435623592
+      pokemon_legends___rei_overworld_sprite_by_zender1752_deezppe-removebg-preview_64: -1705175639
+      pokemon_legends___rei_overworld_sprite_by_zender1752_deezppe-removebg-preview_65: 242980437
+      pokemon_legends___rei_overworld_sprite_by_zender1752_deezppe-removebg-preview_66: -986302413
+      pokemon_legends___rei_overworld_sprite_by_zender1752_deezppe-removebg-preview_67: -1646964026
+      pokemon_legends___rei_overworld_sprite_by_zender1752_deezppe-removebg-preview_68: -1149964132
+      pokemon_legends___rei_overworld_sprite_by_zender1752_deezppe-removebg-preview_7: -1811338297
+      pokemon_legends___rei_overworld_sprite_by_zender1752_deezppe-removebg-preview_8: 159129806
+      pokemon_legends___rei_overworld_sprite_by_zender1752_deezppe-removebg-preview_9: -768533043
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
