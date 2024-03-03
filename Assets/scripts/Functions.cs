@@ -1,8 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Functions
+public class Functions //CLASSE FUNZIONI DI SUPPORTO
 {
     //FUNZIONI AUSILIARIE
     public float distance(Vector3 obj1, Vector3 obj2)
@@ -13,5 +14,42 @@ public class Functions
     public float remap_value(float value, float from1, float from2, float to1, float to2)
     { //Rimappa la variabile value dai limiti from1, from2 ai limiti to1, to2 (Interpolazione lineare)
         return (((to2 - to1) * (value - from1)) / (from2 - from1)) + to1;  //x1 : x2 == (value - from1) : (x - to1)
+    }
+
+    public Boolean timing(ref float time, float timer) //ritorna true se il timer non e' stato ancora inizializzato
+    {
+        //funzionamento: 1)chiamata funzione timing 2)decremento time 3)chiamo la funzione in update per far proseguire il timer(time = scorrimento tempo attuale, timer = tempo totale timer)
+        if (time == timer)//il timer non e' stato ancora inizializzato
+        {
+            return true;
+
+        }
+        else //il timer e stato inizializzato(ovvero time e' stato diminuito)
+        {
+            time -= Time.deltaTime;
+            if (time <= 0)
+            { //se il timer ha raggiunto o superato 0, lo resetto
+                time = timer;
+            }
+            return false;
+        }
+    }
+
+    public Vector3 partition_vect(float angle)
+    { //partiziona il vettore in base all'orientamento dell'oggetto 
+        Vector3 vector; vector.z = 0;
+        vector.y = Mathf.Sin(angle * Mathf.Deg2Rad);
+        vector.x = Mathf.Cos(angle * Mathf.Deg2Rad);
+        return vector;
+    }
+
+    public float normalize_orientation(float angle)
+    { //notazione classica per calcolo seno e coseno
+        angle += 90;
+        if (angle < 0)
+        {
+            angle = 360 - Mathf.Abs(angle); //(normalizza da 0 a 360 gradi)
+        }
+        return angle;
     }
 }
