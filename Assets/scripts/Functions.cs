@@ -13,7 +13,7 @@ public class Functions //CLASSE FUNZIONI DI SUPPORTO
 
     public float remap_value(float value, float from1, float from2, float to1, float to2)
     { //Rimappa la variabile value dai limiti from1, from2 ai limiti to1, to2 (Interpolazione lineare)
-        return (((to2 - to1) * (value - from1)) / (from2 - from1)) + to1;  //x1 : x2 == (value - from1) : (x - to1)
+        return to1 + (to2 - to1) * (value - from1) / (from2 - from1);  //x1 : x2 == (value - from1) : (x - to1)
     }
 
     public Boolean timing(ref float time, float timer) //ritorna true se il timer non e' stato ancora inizializzato

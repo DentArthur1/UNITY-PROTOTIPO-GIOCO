@@ -53,6 +53,8 @@ public class Triangolo : MonoBehaviour //COMANDI --> W/S Acc. Avanti e indientro
     private float wep_time; //tempo prima che si puo' sparare
     //Testo a schermo
     public Text vector, engine, thruster, weapon, boost, lat_boost, boost_boolean, unboost_boolean, latboost_boolean, latunboost_boolean, flight_assist_boolean, FPS; //variabili testo
+    //ANIMAZIONI
+
 
     void DEBUG_LOG(){ //messaggio di debug generale
         Debug.Log("Vector: " + vel + " / Engine_vel: " + engine_vel + " / Direction: " + direction + " / Thruster_vel: " + thruster_vel + " / Cooldown: " + wep_time);
@@ -80,15 +82,6 @@ public class Triangolo : MonoBehaviour //COMANDI --> W/S Acc. Avanti e indientro
         last_thruster_vel = Mathf.Clamp(thruster_vel, -max_thruster_vel, max_thruster_vel); //limiti della memorizzazione dell'ultima velocita' thruster prima dellla chiamata del boost
         //BOOSTER MOTORE
         boost_increment = Mathf.Clamp(boost_increment, 0, boost_target_offset);
-        //BOOSTER LATERALE 
-        if (lat_boost_target_offset > 0) //gestione limiti incremento booster verso sinistra
-        {
-            lat_boost_increment = Mathf.Clamp(lat_boost_increment, 0, lat_boost_target_offset); 
-        } else //gestione limiti incremento booster verso destra
-        {
-            lat_boost_increment = Mathf.Clamp(lat_boost_increment, lat_boost_target_offset, 0);
-        }
-        
     }
     void get_real_vel(){ //somma i due vettori: Vettore motore principale + Vettore thruster laterale
          Vector3 engine_vector = fun.partition_vect(direction) * engine_vel; //ottengo il vettore engine isolato moltiplicando il vettore partizionato per engine_vel
@@ -173,6 +166,10 @@ public class Triangolo : MonoBehaviour //COMANDI --> W/S Acc. Avanti e indientro
                 }
             }
 
+         if (Input.GetKeyDown(KeyCode.W))
+         {
+       
+         }
          if(Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D)){ //movimento destra e sinistra
             if (Input.GetKey(KeyCode.D)){ 
                 thruster_vel -= thruster_acc * Time.deltaTime; //decelerazione thruster(verso destra)

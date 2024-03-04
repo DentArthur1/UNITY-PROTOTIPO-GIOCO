@@ -18,7 +18,6 @@ public class DirectionIndicator : MonoBehaviour //CLASSE PER GESTIRE IL MOVIMENT
     public int anchor_y; //coordinate y posizione freccia sullo schermo
     private float scale_x; //dimensione_x originale freccia
     private float scale_y; //dimensione_y originale freccia
-    private float actual_scale_y; //dimensione_y attuale freccia
     private float cam_stock; //zoom iniziale camera
     private float mult_factor; //variabile di moltiplicazione scala oggetto freccia
     private float max_vec_magnitude; //limite massimo di magnitudine vettore velocita'
@@ -30,16 +29,15 @@ public class DirectionIndicator : MonoBehaviour //CLASSE PER GESTIRE IL MOVIMENT
         cam_stock = cam.orthographicSize; //zoom iniziale camera
         scale_x = arrow.transform.localScale.x; //salvo i valori scale iniziali (x)
         scale_y = arrow.transform.localScale.y; //salvo i valori scale iniziali (y)
-        max_vec_magnitude = new Vector2(0, ship.GetComponent<Triangolo>().engine_vel + ship.GetComponent<Triangolo>().boost_target_offset).magnitude; //da 0 a max_vec_magnitude
-        triangle = ship.GetComponent<Triangolo>();
-        ship = ship.GetComponent<Rigidbody2D>(); //oggetto triangolo estratto dal transform
+        max_vec_magnitude = new Vector2(0, ship.GetComponent<Triangolo>().engine_max_vel + ship.GetComponent<Triangolo>().boost_target_offset).magnitude; //magnitudine massima rappresentabile dal vettore grafico
+        triangle = ship.GetComponent<Triangolo>(); //oggetto triangolo estratto dal tranform
+        ship = ship.GetComponent<Rigidbody2D>(); //oggetto RigidBody2d estratto dal transform
     }
     void FixedUpdate()
     {
         anchor_arrows();
         scale_arrow();
         rotate_arrows();
-        //magnitude();
     }
     void anchor_arrows()
     {
@@ -48,7 +46,7 @@ public class DirectionIndicator : MonoBehaviour //CLASSE PER GESTIRE IL MOVIMENT
         thruster.transform.position = cam.ScreenToWorldPoint(new Vector3(anchor_x, anchor_y, 0)); //Ancora la posizione della freccia thruster vel alle coordinate specificate sullo schermo
         expected.transform.position = cam.ScreenToWorldPoint(new Vector3(anchor_x, anchor_y, 0)); //Ancora la posizione della freccia target vel alle coordinate specificate sullo schermo
     }
-    void scale_arrow() { //scala la grandezza della freccia in modo che sia costante ai cambiamenti di zoom
+    void scale_arrow() { //scala la grandezza della freccia in modo che sia costante ai cambiamenti di zoom  e ne applica la magnitudine corretta
         mult_factor = (cam.orthographicSize / cam_stock);
         arrow.transform.localScale = new Vector3(scale_x * mult_factor, scale_y * fun.remap_value(ship.velocity.magnitude, 0, max_vec_magnitude, 0, 1) * mult_factor, arrow.transform.localScale.z);
         engine.transform.localScale = new Vector3(scale_x * mult_factor, scale_y * fun.remap_value((triangle.engine_vel * fun.partition_vect(triangle.direction)).magnitude, 0, max_vec_magnitude, 0, 1) * mult_factor, engine.transform.localScale.z);
@@ -63,11 +61,5 @@ public class DirectionIndicator : MonoBehaviour //CLASSE PER GESTIRE IL MOVIMENT
         thruster.transform.up = triangle.thruster_vel * fun.partition_vect(triangle.direction + 90); //thruster vel
         expected.transform.up = triangle.vel; //target vel
     }
-    void magnitude() //cambia la lunghezza della freccia in base alla magnitudine del vettore
-    {
-        arrow.transform.localScale = new Vector3(arrow.transform.localScale.x, scale_y * fun.remap_value(ship.velocity.magnitude, 0, max_vec_magnitude, 0, 1), arrow.transform.localScale.z);
-        engine.transform.localScale = new Vector3(engine.transform.localScale.x, scale_y * fun.remap_value((triangle.engine_vel * fun.partition_vect(triangle.direction)).magnitude, 0, max_vec_magnitude, 0, 1), engine.transform.localScale.z);
-        thruster.transform.localScale = new Vector3(thruster.transform.localScale.x, scale_y * fun.remap_value((triangle.thruster_vel * fun.partition_vect(triangle.direction)).magnitude, 0, max_vec_magnitude, 0, 1), thruster.transform.localScale.z);
-        expected.transform.localScale = new Vector3(expected.transform.localScale.x, scale_y * fun.remap_value(triangle.vel.magnitude, 0, max_vec_magnitude, 0, 1), thruster.transform.localScale.z);
-    }
+
 }
