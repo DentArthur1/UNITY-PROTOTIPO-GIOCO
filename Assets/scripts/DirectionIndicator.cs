@@ -41,17 +41,16 @@ public class DirectionIndicator : MonoBehaviour //CLASSE PER GESTIRE IL MOVIMENT
     }
     void anchor_arrows()
     {
-        arrow.transform.position = cam.ScreenToWorldPoint(new Vector3(anchor_x, anchor_y, 0)); //Ancora la posizione della freccia true vel alle coordinate specificate sullo schermo
-        engine.transform.position = cam.ScreenToWorldPoint(new Vector3(anchor_x, anchor_y, 0)); //Ancora la posizione della freccia engine vel alle coordinate specificate sullo schermo
-        thruster.transform.position = cam.ScreenToWorldPoint(new Vector3(anchor_x, anchor_y, 0)); //Ancora la posizione della freccia thruster vel alle coordinate specificate sullo schermo
-        expected.transform.position = cam.ScreenToWorldPoint(new Vector3(anchor_x, anchor_y, 0)); //Ancora la posizione della freccia target vel alle coordinate specificate sullo schermo
+        fun.anchor_obj(arrow, anchor_x, anchor_y, cam); //Ancora la posizione della freccia true vel alle coordinate specificate sullo schermo
+        fun.anchor_obj(engine, anchor_x, anchor_y, cam); //Ancora la posizione della freccia engine vel alle coordinate specificate sullo schermo
+        fun.anchor_obj(thruster, anchor_x, anchor_y, cam); //Ancora la posizione della freccia thruster vel alle coordinate specificate sullo schermo
+        fun.anchor_obj(expected, anchor_x, anchor_y, cam); //Ancora la posizione della freccia target vel alle coordinate specificate sullo schermo
     }
     void scale_arrow() { //scala la grandezza della freccia in modo che sia costante ai cambiamenti di zoom  e ne applica la magnitudine corretta
-        mult_factor = (cam.orthographicSize / cam_stock);
-        arrow.transform.localScale = new Vector3(scale_x * mult_factor, scale_y * fun.remap_value(ship.velocity.magnitude, 0, max_vec_magnitude, 0, 1) * mult_factor, arrow.transform.localScale.z);
-        engine.transform.localScale = new Vector3(scale_x * mult_factor, scale_y * fun.remap_value((triangle.engine_vel * fun.partition_vect(triangle.direction)).magnitude, 0, max_vec_magnitude, 0, 1) * mult_factor, engine.transform.localScale.z);
-        thruster.transform.localScale = new Vector3(scale_x * mult_factor, scale_y * fun.remap_value((triangle.thruster_vel * fun.partition_vect(triangle.direction)).magnitude, 0, max_vec_magnitude, 0, 1) * mult_factor, thruster.transform.localScale.z);
-        expected.transform.localScale = new Vector3(scale_x * mult_factor, scale_y * fun.remap_value(triangle.vel.magnitude, 0, max_vec_magnitude, 0, 1) * mult_factor, expected.transform.localScale.z);
+        arrow.transform.localScale = fun.scale_obj(scale_x, scale_y * fun.remap_value(ship.velocity.magnitude, 0, max_vec_magnitude, 0, 1), arrow.transform.localScale, cam, cam_stock);
+        engine.transform.localScale = fun.scale_obj(scale_x, scale_y * fun.remap_value((triangle.engine_vel * fun.partition_vect(triangle.direction)).magnitude, 0, max_vec_magnitude, 0, 1), engine.transform.localScale, cam, cam_stock);
+        thruster.transform.localScale = fun.scale_obj(scale_x, scale_y * fun.remap_value((triangle.thruster_vel * fun.partition_vect(triangle.direction)).magnitude, 0, max_vec_magnitude, 0, 1), thruster.transform.localScale, cam, cam_stock);
+        expected.transform.localScale = fun.scale_obj(scale_x, scale_y * fun.remap_value(triangle.vel.magnitude, 0, max_vec_magnitude, 0, 1), expected.transform.localScale, cam, cam_stock);
     }
 
     void rotate_arrows() //ruota la freccia per indicare la direzione attuale della nave

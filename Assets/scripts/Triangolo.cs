@@ -102,7 +102,7 @@ public class Triangolo : MonoBehaviour //COMANDI --> W/S Acc. Avanti e indientro
          Vector2 target = new Vector2(mouse_pos.x - triangle.position.x, mouse_pos.y - triangle.position.y); //Ottiene la nuova direzione che la nave deve assumere
          triangle.transform.up = Vector2.MoveTowards(triangle.transform.up, target, rot_vel * Time.deltaTime); //sposta linearmente la prua della nave sulla nuova direzione da assumere   
     }
-
+    
     void check_boost(ref Boolean boost, ref float engine, ref float boost_inc, ref Boolean unboost, float engine_max, float boost_target, float boost_acc) //attiva il booster della nave(gestione incremento del boost della nave)
     {
         if (boost) //se il booster e' in fase di accelerazione continuo a incrementare
@@ -166,10 +166,6 @@ public class Triangolo : MonoBehaviour //COMANDI --> W/S Acc. Avanti e indientro
                 }
             }
 
-         if (Input.GetKeyDown(KeyCode.W))
-         {
-       
-         }
          if(Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D)){ //movimento destra e sinistra
             if (Input.GetKey(KeyCode.D)){ 
                 thruster_vel -= thruster_acc * Time.deltaTime; //decelerazione thruster(verso destra)
@@ -245,12 +241,13 @@ public class Triangolo : MonoBehaviour //COMANDI --> W/S Acc. Avanti e indientro
     }
     void FixedUpdate(){ //aggiorna tutti gli oggetti legati alla fisica di gioco
          update_pos(); 
-         calculate_orientation();   
+         calculate_orientation();
+        
     }
 
     void Update(){ //aggiorna il mondo di gioco generale
          handle_inputs(); 
-         DEBUG_LOG();
+         //DEBUG_LOG();
          print_values();
     }
 

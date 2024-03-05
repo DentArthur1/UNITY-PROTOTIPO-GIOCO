@@ -52,4 +52,15 @@ public class Functions //CLASSE FUNZIONI DI SUPPORTO
         }
         return angle;
     }
+
+    public void anchor_obj(GameObject obj, float anchor_x, float anchor_y, Camera cam) //ancora l'oggetto alle coordinate specificate
+    {
+        obj.transform.position = cam.ScreenToWorldPoint(new Vector3(anchor_x, anchor_y, 0));
+    }
+
+    public Vector3 scale_obj(float scale_x, float scale_y, Vector3 LocalScale, Camera cam, float cam_stock) //scala l'oggetto in base allo zoom attuale della videocamera
+    {
+        return new Vector3(scale_x * (cam.orthographicSize / cam_stock), scale_y * (cam.orthographicSize / cam_stock), LocalScale.z);
+    }
+   
 }
