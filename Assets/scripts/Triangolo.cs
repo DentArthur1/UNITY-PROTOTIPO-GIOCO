@@ -92,7 +92,7 @@ public class Triangolo : MonoBehaviour //COMANDI --> W/S Acc. Avanti e indientro
    
     void update_pos(){ //modifica la posizione del triangolo sullo schermo
          get_real_vel();
-         triangle.velocity = Vector3.MoveTowards(triangle.velocity, vel, ship_drag_coeff*Time.deltaTime); //applico il drag alla nave
+         triangle.velocity = Vector3.MoveTowards(triangle.velocity, vel, ship_drag_coeff * Time.deltaTime); //applico il drag alla nave
     }
     Vector3 get_mouse_pos(){ //ottiene la posizione del mouse (coordinate pixel su schermo) e ne converte le coordinate nella loro controparte in mondo di gioco
          return Camera.main.ScreenToWorldPoint(Input.mousePosition); 

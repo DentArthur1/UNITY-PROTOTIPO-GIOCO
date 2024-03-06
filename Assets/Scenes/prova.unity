@@ -150,7 +150,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.0030000806, y: 0.9609999, z: 8.08988}
-  m_LocalScale: {x: 0.18593751, y: 1, z: 1}
+  m_LocalScale: {x: 0.18593751, y: 0.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1729204820}
@@ -1053,7 +1053,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 2
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -1285,7 +1285,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 2
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_FlipX: 0
@@ -1310,7 +1310,7 @@ GameObject:
   - component: {fileID: 350768908}
   - component: {fileID: 350768907}
   m_Layer: 5
-  m_Name: staticbg
+  m_Name: Sfondo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1855,7 +1855,7 @@ GameObject:
   - component: {fileID: 477673099}
   - component: {fileID: 477673098}
   m_Layer: 5
-  m_Name: bg
+  m_Name: Immagine
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2087,7 +2087,7 @@ GameObject:
   - component: {fileID: 546462971}
   - component: {fileID: 546462972}
   m_Layer: 0
-  m_Name: MiniMap
+  m_Name: Minimappa
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2143,7 +2143,7 @@ GameObject:
   - component: {fileID: 555099327}
   - component: {fileID: 555099328}
   m_Layer: 5
-  m_Name: DirFinder
+  m_Name: Vettori
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2724,7 +2724,7 @@ MonoBehaviour:
   target: {fileID: 620260269}
   smooth_follow: 100
   zoom_scroll: 20
-  zoom_speed: 400
+  zoom_speed: 0.1
   max_zoom_in: 4
   max_zoom_out: 30
 --- !u!1 &675224780
@@ -3878,7 +3878,7 @@ GameObject:
   - component: {fileID: 1073707313}
   - component: {fileID: 1073707314}
   m_Layer: 0
-  m_Name: proiettile
+  m_Name: Proiettile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3972,7 +3972,7 @@ Transform:
   m_GameObject: {fileID: 1073707309}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -19.05, y: -6.62, z: 0}
+  m_LocalPosition: {x: -18.99, y: -6.57, z: 0}
   m_LocalScale: {x: 0.047334973, y: 0.058915284, z: 1.0177}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4353,7 +4353,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.0030000806, y: 0.9609999, z: 8.08988}
-  m_LocalScale: {x: 0.18593751, y: 1, z: 1}
+  m_LocalScale: {x: 0.18593751, y: 0.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 35157329}
@@ -5093,7 +5093,7 @@ GameObject:
   - component: {fileID: 1390200849}
   - component: {fileID: 1390200851}
   m_Layer: 0
-  m_Name: target_map
+  m_Name: Target mappa
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5298,8 +5298,8 @@ Transform:
   m_GameObject: {fileID: 1407364972}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.0030000806, y: 0.9609999, z: 8.08988}
-  m_LocalScale: {x: 0.18593751, y: 1, z: 1}
+  m_LocalPosition: {x: -0.003, y: 0.9609999, z: 8.08988}
+  m_LocalScale: {x: 0.18593751, y: 0.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 147191254}
@@ -5344,7 +5344,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 2
   m_Sprite: {fileID: 7482667652216324306, guid: 75f5f34dc1b5347e0b8351032682f224, type: 3}
   m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_FlipX: 0
@@ -7269,7 +7269,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.0030000806, y: 0.9609999, z: 8.08988}
-  m_LocalScale: {x: 0.18593751, y: 1, z: 1}
+  m_LocalScale: {x: 0.18593751, y: 0.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1951387890}
@@ -7876,7 +7876,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2096884999}
   m_Layer: 0
-  m_Name: planets
+  m_Name: Pianeti
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

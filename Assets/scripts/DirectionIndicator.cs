@@ -19,7 +19,6 @@ public class DirectionIndicator : MonoBehaviour //CLASSE PER GESTIRE IL MOVIMENT
     private float scale_x; //dimensione_x originale freccia
     private float scale_y; //dimensione_y originale freccia
     private float cam_stock; //zoom iniziale camera
-    private float mult_factor; //variabile di moltiplicazione scala oggetto freccia
     private float max_vec_magnitude; //limite massimo di magnitudine vettore velocita'
 
     void Start()
@@ -33,12 +32,13 @@ public class DirectionIndicator : MonoBehaviour //CLASSE PER GESTIRE IL MOVIMENT
         triangle = ship.GetComponent<Triangolo>(); //oggetto triangolo estratto dal tranform
         ship = ship.GetComponent<Rigidbody2D>(); //oggetto RigidBody2d estratto dal transform
     }
-    void FixedUpdate()
+    void Update()
     {
         anchor_arrows();
         scale_arrow();
         rotate_arrows();
     }
+    
     void anchor_arrows()
     {
         fun.anchor_obj(arrow, anchor_x, anchor_y, cam); //Ancora la posizione della freccia true vel alle coordinate specificate sullo schermo

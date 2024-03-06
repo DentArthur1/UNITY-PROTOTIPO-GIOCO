@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.Tracing;
 using System.Runtime.CompilerServices;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class MiniMap : MonoBehaviour
@@ -22,6 +23,7 @@ public class MiniMap : MonoBehaviour
     public float circle_radius; //raggio cerchio mappa
     private float radar_time; //tempo timer radar
     public float radar_scan_time; //tempo totale timer radar
+    private string[] map_filter; //array di stringhe contenente gli oggetti da non mostrare sulla mappa 
     private (Rigidbody2D[], (float, float)[]) info; //tupla contentente i dati degli oggetti trovati dal radar + le coordinate su schermo dei loro rispettivi target da disegnare sulla mappa
     void Start()
     {
@@ -31,9 +33,10 @@ public class MiniMap : MonoBehaviour
         scale_y = map.transform.localScale.y; //scala_y iniziale mappa
         cam_stock = cam.orthographicSize; //zoom iniziale camera
         radar_time = radar_scan_time; //settaggio timer iniziale
+        map_filter = new string[] { "Proiettile", "Triangle" }; //settaggio filtro mappa
     }
 
-    void FixedUpdate()
+    void Update()
     {
         fun.anchor_obj(map, anchor_x, anchor_y, cam); //ancoro la mappa al lato dello schermo
         rotate_triangle(); //ruoto il triangolo al centro
@@ -41,11 +44,11 @@ public class MiniMap : MonoBehaviour
         if (fun.timing(ref radar_time, radar_scan_time))
         {
             delete_targets();  //elimino i target blittati precedentemente
-            info = blit_targets(); //rappresento nuovi target
+            info = manage_targets(); //rappresento nuovi target
             radar_time -= Time.deltaTime; //faccio partire il cooldown
         }
         move_targets(); //muovo i target con la mappa
-        fun.timing(ref radar_time, radar_scan_time);
+        fun.timing(ref radar_time, radar_scan_time); //faccio scorrere il timer
 
     }
 
@@ -57,18 +60,21 @@ public class MiniMap : MonoBehaviour
     Collider2D[] scan() //ottiene tutti gli oggetti nel raggio della mappa
     {
 
-        Collider2D[] oggetti = Physics2D.OverlapCircleAll(ship.transform.position, map_range);
+        Collider2D[] oggetti = Physics2D.OverlapCircleAll(ship.transform.position, map_range); //ottengo tutti gli oggetti che collidono con la sfera immaginaria
+        List<Collider2D> lista_oggetti = new List<Collider2D>();
+        lista_oggetti.AddRange(oggetti); //creo una copia dell'array sottoforma di lista
+        lista_oggetti.RemoveAll(oggetto => !filter_targets(map_filter, oggetto.name)); //elimino tutti gli elementi che sono presenti nel filtro
+        oggetti = lista_oggetti.ToArray(); //riconverto la lista a array
         return oggetti;
     }
 
-    (Rigidbody2D[], (float, float)[]) blit_targets() //rappresenta i target in scala sulla minimappa
+    (Rigidbody2D[], (float, float)[]) manage_targets() //rappresenta i target in scala sulla minimappa
     {
-        //blitto i target
         Collider2D[] oggetti = scan(); //array oggetti trovati nel raggio
         Rigidbody2D[] targets = new Rigidbody2D[oggetti.Length]; //array oggetti target da disegnare sulla mappa
         (float, float)[] positions = new (float, float)[oggetti.Length]; //array di tuple contenenti le posizioni su schermo di ogni target disegnato
-        int counter = 0;
-        foreach(Collider2D obj in oggetti)
+        int counter = 0; //indice
+        foreach(Collider2D obj in oggetti) //itera fra gli oggetti rilevati dal radar
         {
             float orig_delta_x = obj.transform.position.x - ship.transform.position.x; //calcolo deltaX
             float orig_delta_y = obj.transform.position.y - ship.transform.position.y; //calcolo deltaY
@@ -76,13 +82,13 @@ public class MiniMap : MonoBehaviour
             float scaled_delta_y = fun.remap_value(orig_delta_y, -map_range, +map_range, -circle_radius, +circle_radius); //calcolo deltaY scalato
             float x_value = triangle.transform.position.x + scaled_delta_x * (cam.orthographicSize / cam_stock); //applico deltaX al triangolo al centro della minimappa
             float y_value = triangle.transform.position.y + scaled_delta_y * (cam.orthographicSize / cam_stock); //applico deltaY al triangolo al centro della minimappa
-            Rigidbody2D target_copia;
+            Rigidbody2D target_copia; //copia target
             target_copia = Instantiate<Rigidbody2D>(target, new Vector3(x_value, y_value, 0), triangle.transform.rotation, map.transform); //creo il target alle coordinate calcolate
             targets[counter] = target_copia; //aggiungo il target al mio array
             Vector3 to_screen = cam.WorldToScreenPoint(target_copia.position); //ottengo le posizioni su schermo del target
             positions[counter] = (to_screen.x, to_screen.y); //inserisco il risultato nel mio array di tuple
-            counter++;
-        }
+            counter++; //incremento indice accesso 
+        }           
         return (targets, positions);
     }
 
@@ -92,8 +98,7 @@ public class MiniMap : MonoBehaviour
         {
             foreach (Rigidbody2D obj in info.Item1)
             {
-                Destroy(obj.gameObject); //distruggo il target
-               
+              Destroy(obj.gameObject); //distruggo il target
             }
         }
        
@@ -107,8 +112,20 @@ public class MiniMap : MonoBehaviour
             foreach(Rigidbody2D target in info.Item1)
             {
                 fun.anchor_obj(target.gameObject, info.Item2[counter].Item1, info.Item2[counter].Item2, cam); //ancora il target.i alle sue coordinate su schermo calcolate in blit_targets()
-                counter++;
+                counter++; 
             }
         }
+    }
+
+    bool filter_targets(string[] filter, string name) //mostra solo gli oggetti desiderati sul radar (Tutti - filter) (DA IMPLEMENTARE)
+    {
+        foreach(string str in filter)
+        {
+            if(name.Contains(str)) //se il nome dell'oggetto contiene "name"
+            {
+                return false; //l'oggetto e' contenuto nel filtro
+            }
+        }
+        return true; //l'oggetto non e' contenuto nel filtro
     }
 }
