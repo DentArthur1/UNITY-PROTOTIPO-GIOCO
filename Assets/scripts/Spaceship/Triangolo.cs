@@ -1,6 +1,4 @@
 using System;
-using Unity.Mathematics;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI; //per il testo a schermo
 

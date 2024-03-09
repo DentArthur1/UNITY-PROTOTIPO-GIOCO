@@ -1,7 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Experimental.Rendering;
 
 public class DirectionIndicator : MonoBehaviour //CLASSE PER GESTIRE IL MOVIMENTO DELLA FRECCIA
 {
@@ -19,7 +16,7 @@ public class DirectionIndicator : MonoBehaviour //CLASSE PER GESTIRE IL MOVIMENT
     private float scale_x; //dimensione_x originale freccia
     private float scale_y; //dimensione_y originale freccia
     private float cam_stock; //zoom iniziale camera
-    private float max_vec_magnitude; //limite massimo di magnitudine vettore velocita'
+    private float max_vec_magnitude; //limite massimo di magnitudine vettore velocita'(legato sempre all'engine)
 
     void Start()
     {
@@ -28,8 +25,8 @@ public class DirectionIndicator : MonoBehaviour //CLASSE PER GESTIRE IL MOVIMENT
         cam_stock = cam.orthographicSize; //zoom iniziale camera
         scale_x = arrow.transform.localScale.x; //salvo i valori scale iniziali (x)
         scale_y = arrow.transform.localScale.y; //salvo i valori scale iniziali (y)
-        max_vec_magnitude = new Vector2(0, ship.GetComponent<Triangolo>().engine_max_vel + ship.GetComponent<Triangolo>().boost_target_offset).magnitude; //magnitudine massima rappresentabile dal vettore grafico
         triangle = ship.GetComponent<Triangolo>(); //oggetto triangolo estratto dal tranform
+        max_vec_magnitude = new Vector2(0, triangle.engine_max_vel + triangle.boost_target_offset).magnitude; //magnitudine massima rappresentabile dal vettore grafico
         ship = ship.GetComponent<Rigidbody2D>(); //oggetto RigidBody2d estratto dal transform
     }
     void Update()

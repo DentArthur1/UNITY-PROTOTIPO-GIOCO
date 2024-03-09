@@ -1,10 +1,9 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Functions //CLASSE FUNZIONI DI SUPPORTO
 {
+    public const double G = 6.67430e-11; //costante di attrazione gravitazionale universale
     //FUNZIONI AUSILIARIE
     public float distance(Vector3 obj1, Vector3 obj2)
     { //calcola la distanza tra due punti usando pitagora(funziona solo a due dimensioni)
@@ -62,5 +61,17 @@ public class Functions //CLASSE FUNZIONI DI SUPPORTO
     {
         return new Vector3(scale_x * (cam.orthographicSize / cam_stock), scale_y * (cam.orthographicSize / cam_stock), LocalScale.z);
     }
-   
+
+    public bool filter_targets(string[] filter, string name) //controlla se name e' contenuto in filter
+    {
+        foreach (string str in filter)
+        {
+            if (name.Contains(str)) //se il nome dell'oggetto contiene "name"
+            {
+                return false; //l'oggetto e' contenuto nel filtro
+            }
+        }
+        return true; //l'oggetto non e' contenuto nel filtro
+    }
+
 }
