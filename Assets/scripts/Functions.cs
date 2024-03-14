@@ -1,9 +1,11 @@
 using System;
+using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 
 public class Functions //CLASSE FUNZIONI DI SUPPORTO
 {
     public const double G = 6.67430e-11; //costante di attrazione gravitazionale universale
+    public char[] stars_spectres = new char[7] {'0','B','A','F','G','K','M'};
     //FUNZIONI AUSILIARIE
     public float distance(Vector3 obj1, Vector3 obj2)
     { //calcola la distanza tra due punti usando pitagora(funziona solo a due dimensioni)
@@ -74,4 +76,34 @@ public class Functions //CLASSE FUNZIONI DI SUPPORTO
         return true; //l'oggetto non e' contenuto nel filtro
     }
 
+    //FORMULE PIANETI
+    public float get_g(float grav_mult, float mass, float radius) //calcola l'accelerazione gravitazionale
+    {
+        return (grav_mult * mass) / Mathf.Pow(radius, 2);
+    }
+
+    public float get_T(float distance, float grav_mult, float mass, Rigidbody2D parent = null) //calcola il periodo di rivoluzione dell'oggetto
+    {
+        if (parent != null) //ovvero se l'oggetto e' un pianeta o una luna
+        {
+            return (2 * Mathf.PI) * Mathf.Sqrt(Mathf.Pow(distance, 3) / (grav_mult * (parent.mass + mass)));
+        }
+        return 0;
+        //in realta distance sarebbe la media tra il punto piu' vicino e piu lontato dal sole del pianeta
+
+    }
+    public float get_escape_vel(float grav_mult, float radius, float mass) //calcola la velocita' di fuga
+    {
+        return Mathf.Sqrt((2 * grav_mult * mass) / radius);
+    }
+
+    public float get_volume(float mass, float density) //calcola il volume dell'oggetto (formula volume sfera)
+    {
+        return mass / density;
+    }
+
+    public float get_expected_temp(GameObject planet, GameObject sun) //calcola la temperatura di equilibrio del pianeta
+    {
+        return 0f;
+    }
 }

@@ -84,8 +84,7 @@ public class Triangolo : MonoBehaviour //COMANDI --> W/S Acc. Avanti e indientro
     void get_real_vel(){ //somma i due vettori: Vettore motore principale + Vettore thruster laterale
          Vector3 engine_vector = fun.partition_vect(direction) * engine_vel; //ottengo il vettore engine isolato moltiplicando il vettore partizionato per engine_vel
          Vector3 thruster_vector = fun.partition_vect(direction + 90) * thruster_vel; //ottengo il vettore thruster isolato moltiplicando il vettore partizionato per thruster_vel
-         vel = engine_vector + thruster_vector; //sommo i due vettori e ottengo il vettore risultante
-         
+         vel = engine_vector + thruster_vector; //sommo i due vettori e ottengo il vettore risultante   
     }
    
     void update_pos(){ //modifica la posizione del triangolo sullo schermo
