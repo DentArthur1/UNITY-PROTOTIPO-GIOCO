@@ -27,7 +27,8 @@ public class Generator: MonoBehaviour //CLASSE PER GESTIRE LA GENERAZIONE PROCED
     [Range(0f, 0.001f)] public float mass_scale_lower; //limite minimo moltiplicatore generazione massa oggetti
     [Range(0f, 0.10f)] public float radius_scale_upper; //limite massimo moltiplicatore generazione massa oggetti
     [Range(0f, 0.10f)] public float radius_scale_lower; //limite minimo moltiplicatore generazione massa oggetti 
-    [Range(0f, 0.10f)] public float planet_perturbation_limit; //limite forza massimo perturbazioni orbitali
+    [Range(0.0000001f, 100f)] public float planet_perturbation_limit; //limite forza massimo perturbazioni orbitali
+    [Range(0f, 100f)] public float infra_obj_min_distance; //minima distanza fisica possibile fra i pianeti
     //[Range(0f, 1f)] public float moon_perturbation_limit; //limite forza massimo perturbazioni orbitali
 
     //STELLE
@@ -62,7 +63,7 @@ public class Generator: MonoBehaviour //CLASSE PER GESTIRE LA GENERAZIONE PROCED
         mass_range = get_range(dati_obj.mass, mass_scale_lower, mass_scale_upper);
         radius_range =  get_range(dati_obj.radius, radius_scale_lower, radius_scale_upper);
         get_distance_range(type, orbitee);
-        int obj_number = UnityEngine.Random.Range(1, max_planet_ps); //stabiliamo il numero di oggetti da generare
+        int obj_number = UnityEngine.Random.Range(0, max + 1); //stabiliamo il numero di oggetti da generare
         //genero gli oggetti
 
         for (int i = 0; i < obj_number; i++) //per ogni oggetto da generare le assegno caratteristiche semi-randomiche(dipendenti dalle caratteristiche di orbitee)
@@ -70,6 +71,10 @@ public class Generator: MonoBehaviour //CLASSE PER GESTIRE LA GENERAZIONE PROCED
             float obj_radius = UnityEngine.Random.Range(radius_range.Item1, radius_range.Item2);
             float obj_mass = UnityEngine.Random.Range(mass_range.Item1, mass_range.Item2);
             (float, float) new_dist_range =  squeeze_in(orbiters,orbitee, obj_radius, obj_mass, distance_range); //ottengo nuovo range 
+            if (new_dist_range.Item1 == -1) //nel caso fallisca la generazione di una distanza, non genero l'oggetto e provo con il successivo
+            {
+                continue; 
+            }
             float obj_distance = UnityEngine.Random.Range(new_dist_range.Item1, new_dist_range.Item2);
             float obj_albedo = UnityEngine.Random.Range(albedo_min, albedo_max);
             float obj_age = UnityEngine.Random.Range(0f, dati_obj.age); //l'oggetto orbitante deve essere piu giovane di orbitee
@@ -91,10 +96,11 @@ public class Generator: MonoBehaviour //CLASSE PER GESTIRE LA GENERAZIONE PROCED
             dist_mult = planet_distance_div;
         } 
         else {  //se l'oggetto e' una luna
-            dist_mult = moon_distance_div; 
+            dist_mult = moon_distance_div;
         }
         float approx_optimal_distance = fun.get_approximate_distance(orbitee, dist_mult, System.GetComponent<Gravitation>().grav_multiplier); //ottengo distanza ottimale dell'oggetto da orbitee
-        distance_range = (orbitee.GetComponent<Object>().radius, orbitee.GetComponent<Object>().radius + approx_optimal_distance); //stabilisco il range, e faccio in modo che il limite minimo sia pari al raggio del padre e il massimo pari alla distanza ottenuta con la funzione
+        distance_range = (orbitee.GetComponent<Object>().radius + infra_obj_min_distance, orbitee.GetComponent<Object>().radius + approx_optimal_distance); //stabilisco il range, e faccio in modo che il limite minimo sia pari al raggio del padre e il massimo pari alla distanza ottenuta con la funzione
+        //(raggio_orbitee + minima distanza fra pianeti, massima distanza pianeti da orbitee)
         print(distance_range);
     }
 
@@ -109,35 +115,27 @@ public class Generator: MonoBehaviour //CLASSE PER GESTIRE LA GENERAZIONE PROCED
             //1 caso
             if (generated_objs.IndexOf(obj) == 0)
             {
-                if (dist_range.Item1 + (radius * 2) < obj.GetComponent<Planet>().distance) //controllo che ci sia lo spazio fisico
-                {
                     //trovo,se esiste, la distanza ottimale di generazione dell'oggetto tale che non ci siano perturbazioni orbitali con il vicino
                     //(trovo la distanza dall'oggetto che poi devo sottrarre alla sua distanza dal sole per ottenere quello che mi serve effettivamente)
                     float offset = fun.get_r(mass, obj.GetComponent<Planet>().mass, planet_perturbation_limit, System.GetComponent<Gravitation>().grav_multiplier);
-                    float distance = obj.GetComponent<Planet>().distance - offset; //a sinistra del pianeta
-                    if (distance > dist_range.Item1 + (radius * 2)) //se la distanza per lo spawn e' maggiore del limite minore e del raggio dell'oggetto ok
+                    float distance = (obj.GetComponent<Planet>().distance - offset); //a sinistra del pianeta
+                    if (dist_range.Item1 + radius < distance) //se la distanza per lo spawn e' compresa tra il limite inf + il raggio dell'oggetto e l'oggetto successivo allora ok
                     {
-                        return (dist_range.Item1 + radius, distance - radius);
+                        return (dist_range.Item1 + radius , distance - obj.GetComponent<Planet>().radius - radius);
                     } else if (generated_objs.Count == 1) //nel caso sia presente solo un elemento devo assegnargli l'intervallo successivo direttamente qui (pena un eccezione)
                     {
                         return (obj.GetComponent<Planet>().distance + offset + radius, dist_range.Item2 - radius);
                     }
-                }
             } else if (generated_objs.IndexOf(obj) == generated_objs.Count - 1) //3 Caso
             {
-                if (obj.GetComponent<Planet>().distance + (radius * 2) < dist_range.Item2)//controllo che ci sia lo spazio fisico
-                {
                     float offset = fun.get_r(mass, obj.GetComponent<Planet>().mass, planet_perturbation_limit, System.GetComponent<Gravitation>().grav_multiplier);
                     float distance = obj.GetComponent<Planet>().distance + offset; //a destra del pianeta
                     if (distance + radius < dist_range.Item2 - radius) //se la distanza piu' il raggio e' minore del limite massimo di distanza allora ok
                     {
                         return (distance + radius, dist_range.Item2 - radius);
                     }
-                }
             } else //2 Caso (Caso generale)
             {
-                if (obj.GetComponent<Planet>().distance + (radius * 2) < generated_objs.ElementAt(generated_objs.IndexOf(obj) + 1).GetComponent<Planet>().distance) //controllo ci sia lo spazio fisico
-                {
                     float offset1 = fun.get_r(mass, obj.GetComponent<Planet>().mass, planet_perturbation_limit, System.GetComponent<Gravitation>().grav_multiplier); //distanza necessaria all oggetto 1
                     float offset2 = fun.get_r(mass, generated_objs.ElementAt(generated_objs.IndexOf(obj) + 1).GetComponent<Planet>().mass, planet_perturbation_limit, System.GetComponent<Gravitation>().grav_multiplier); //distanza necessaria all oggetto 2
                     (float, float) limits = (obj.GetComponent<Planet>().distance + offset1, generated_objs.ElementAt(generated_objs.IndexOf(obj) + 1).GetComponent<Planet>().distance - offset2);
@@ -145,13 +143,12 @@ public class Generator: MonoBehaviour //CLASSE PER GESTIRE LA GENERAZIONE PROCED
                     {
                         return (limits.Item1 + radius, limits.Item2 - radius); //returno la media tra i due limiti
                     }
-                }
             }     
         }
-        if(generated_objs.Count != 0) //lancio l'eccezione solo se non ho trovato il range
+        if(generated_objs.Count != 0) //se arrivo qui e gli oggetti da piazzare sono > 0 allora e' perche' non ho trovato il range, per cui lancio errore
         {
-            Debug.Log("Optimal range not found while generating objs");
-            throw new Exception(); //non ho trovato l'intervallo
+            Debug.Log("Optimal range not found while generating objs \nLimiting planet generation");
+            return (-1, 0);
         } else //nel caso in cui non abbia ancora generato oggetto ritorno la media fra i limiti originari
         {
             return (dist_range.Item1 + radius, dist_range.Item2 - radius); //restringo il range per comprendere lo spazio fisico dovuto al diametro dell'oggetto
@@ -162,7 +159,7 @@ public class Generator: MonoBehaviour //CLASSE PER GESTIRE LA GENERAZIONE PROCED
      GameObject generate_sun() //generazione stelle 
      {
         char spectrum = get_spectrum(fun.stars_spectres); //genero lo spettro
-        GameObject sun = obj_gen.initialize_star(12f, 500000f, "Stella", "Sole", System, 100f, 1f, 10f, spectrum); //HARDCODED per ora
+        GameObject sun = obj_gen.initialize_star(10f, 500000f, "Stella", "Sole", System, 100f, 1f, 10f, spectrum); //HARDCODED per ora
         return sun;
      }
 

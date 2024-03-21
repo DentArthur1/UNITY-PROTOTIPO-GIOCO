@@ -154,7 +154,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   template: {fileID: 7994076195203732788, guid: e133bb0621176374db7d2c9f41e2d7ad, type: 3}
   grav_range: 10000
-  grav_multiplier: 0.0001
+  grav_multiplier: 0.000066743
   system: {fileID: 852480224}
   gen: {fileID: 1271438066}
 --- !u!4 &852480226
@@ -369,8 +369,8 @@ MonoBehaviour:
   mass_scale_lower: 0.000003
   radius_scale_upper: 0.0803
   radius_scale_lower: 0.0036
-  planet_perturbation_limit: 0.0083
-  moon_perturbation_limit: 0.565
+  planet_perturbation_limit: 0.001
+  infra_obj_min_distance: 0
   max_moons_pp: 0
   max_planet_ps: 10
   max_suns_ps: 1
