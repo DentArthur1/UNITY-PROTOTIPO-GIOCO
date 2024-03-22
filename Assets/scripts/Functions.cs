@@ -105,9 +105,14 @@ public class Functions //CLASSE FUNZIONI DI SUPPORTO
     {
         return mass / volume;
     }
-    public float get_r(float mass1, float mass2, float force,  float grav_mult) //ottiene la distanza tra i due oggetti necessaria per ottenere una forza == force
+    public float get_r(float mass1, GameObject obj2, float force,  float grav_mult) //ottiene la distanza tra i due oggetti necessaria per ottenere una forza == force
     {
-        return Mathf.Sqrt((grav_mult * mass1 * mass2) / force);
+        float r =  Mathf.Sqrt((grav_mult * mass1 * obj2.GetComponent<Rigidbody2D>().mass) / force);
+        if (r < obj2.GetComponent<Object>().radius) //se la distanza calcolata e' dentro il raggio di obj2 ne calcolo la distanza esterna che tiene conto del suo raggio
+        {
+            r = obj2.GetComponent<Object>().radius;
+        }
+        return r;
     }
 
     public float get_expected_temp(GameObject planet, GameObject sun) //calcola la temperatura di equilibrio del pianeta

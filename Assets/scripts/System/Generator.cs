@@ -71,7 +71,7 @@ public class Generator: MonoBehaviour //CLASSE PER GESTIRE LA GENERAZIONE PROCED
             float obj_radius = UnityEngine.Random.Range(radius_range.Item1, radius_range.Item2);
             float obj_mass = UnityEngine.Random.Range(mass_range.Item1, mass_range.Item2);
             (float, float) new_dist_range =  squeeze_in(orbiters,orbitee, obj_radius, obj_mass, distance_range); //ottengo nuovo range 
-            if (new_dist_range.Item1 == -1) //nel caso fallisca la generazione di una distanza, non genero l'oggetto e provo con il successivo
+            if (new_dist_range.Item1 == -1) //nel caso fallisca la generazione di una distanza, non genero l'oggetto e provo con il successivo (salto il resto del for)
             {
                 continue; 
             }
@@ -99,7 +99,7 @@ public class Generator: MonoBehaviour //CLASSE PER GESTIRE LA GENERAZIONE PROCED
             dist_mult = moon_distance_div;
         }
         float approx_optimal_distance = fun.get_approximate_distance(orbitee, dist_mult, System.GetComponent<Gravitation>().grav_multiplier); //ottengo distanza ottimale dell'oggetto da orbitee
-        distance_range = (orbitee.GetComponent<Object>().radius + infra_obj_min_distance, orbitee.GetComponent<Object>().radius + approx_optimal_distance); //stabilisco il range, e faccio in modo che il limite minimo sia pari al raggio del padre e il massimo pari alla distanza ottenuta con la funzione
+        distance_range = (orbitee.GetComponent<Object>().radius, orbitee.GetComponent<Object>().radius + approx_optimal_distance); //stabilisco il range, e faccio in modo che il limite minimo sia pari al raggio del padre e il massimo pari alla distanza ottenuta con la funzione
         //(raggio_orbitee + minima distanza fra pianeti, massima distanza pianeti da orbitee)
         print(distance_range);
     }
@@ -117,31 +117,31 @@ public class Generator: MonoBehaviour //CLASSE PER GESTIRE LA GENERAZIONE PROCED
             {
                     //trovo,se esiste, la distanza ottimale di generazione dell'oggetto tale che non ci siano perturbazioni orbitali con il vicino
                     //(trovo la distanza dall'oggetto che poi devo sottrarre alla sua distanza dal sole per ottenere quello che mi serve effettivamente)
-                    float offset = fun.get_r(mass, obj.GetComponent<Planet>().mass, planet_perturbation_limit, System.GetComponent<Gravitation>().grav_multiplier);
+                    float offset = fun.get_r(mass, obj.gameObject, planet_perturbation_limit, System.GetComponent<Gravitation>().grav_multiplier);
                     float distance = (obj.GetComponent<Planet>().distance - offset); //a sinistra del pianeta
-                    if (dist_range.Item1 + radius < distance) //se la distanza per lo spawn e' compresa tra il limite inf + il raggio dell'oggetto e l'oggetto successivo allora ok
+                    if (dist_range.Item1 + radius + infra_obj_min_distance < distance - radius - infra_obj_min_distance) //range --> Compreso tra Orbitee e Oggetto da cui prendere le distanze
                     {
-                        return (dist_range.Item1 + radius , distance - obj.GetComponent<Planet>().radius - radius);
+                        return (dist_range.Item1 + radius , distance - radius - infra_obj_min_distance);
                     } else if (generated_objs.Count == 1) //nel caso sia presente solo un elemento devo assegnargli l'intervallo successivo direttamente qui (pena un eccezione)
                     {
-                        return (obj.GetComponent<Planet>().distance + offset + radius, dist_range.Item2 - radius);
+                        return (obj.GetComponent<Planet>().distance + offset + radius + infra_obj_min_distance, dist_range.Item2 - radius);
                     }
             } else if (generated_objs.IndexOf(obj) == generated_objs.Count - 1) //3 Caso
             {
-                    float offset = fun.get_r(mass, obj.GetComponent<Planet>().mass, planet_perturbation_limit, System.GetComponent<Gravitation>().grav_multiplier);
+                    float offset = fun.get_r(mass, obj.gameObject, planet_perturbation_limit, System.GetComponent<Gravitation>().grav_multiplier);
                     float distance = obj.GetComponent<Planet>().distance + offset; //a destra del pianeta
-                    if (distance + radius < dist_range.Item2 - radius) //se la distanza piu' il raggio e' minore del limite massimo di distanza allora ok
-                    {
-                        return (distance + radius, dist_range.Item2 - radius);
+                    if (distance + radius + infra_obj_min_distance < dist_range.Item2 - radius) //range --> Compreso tra Oggetto da cui prendere le distanze e limite massimo di distanza
+                {
+                        return (distance + radius + infra_obj_min_distance, dist_range.Item2 - radius);
                     }
             } else //2 Caso (Caso generale)
             {
-                    float offset1 = fun.get_r(mass, obj.GetComponent<Planet>().mass, planet_perturbation_limit, System.GetComponent<Gravitation>().grav_multiplier); //distanza necessaria all oggetto 1
-                    float offset2 = fun.get_r(mass, generated_objs.ElementAt(generated_objs.IndexOf(obj) + 1).GetComponent<Planet>().mass, planet_perturbation_limit, System.GetComponent<Gravitation>().grav_multiplier); //distanza necessaria all oggetto 2
+                    float offset1 = fun.get_r(mass, obj.gameObject, planet_perturbation_limit, System.GetComponent<Gravitation>().grav_multiplier); //distanza necessaria all oggetto 1
+                    float offset2 = fun.get_r(mass, generated_objs.ElementAt(generated_objs.IndexOf(obj) + 1).gameObject, planet_perturbation_limit, System.GetComponent<Gravitation>().grav_multiplier); //distanza necessaria all oggetto 2
                     (float, float) limits = (obj.GetComponent<Planet>().distance + offset1, generated_objs.ElementAt(generated_objs.IndexOf(obj) + 1).GetComponent<Planet>().distance - offset2);
-                    if (limits.Item1 + radius < limits.Item2 - radius) //Se il range esiste e non e' negativo e vi e' lo spazio fisico
-                    {
-                        return (limits.Item1 + radius, limits.Item2 - radius); //returno la media tra i due limiti
+                    if (limits.Item1 + radius + infra_obj_min_distance < limits.Item2 - radius - infra_obj_min_distance) //range --> Compreso tra Oggetto1 da cui prendere le distanze e Oggetto2 da cui prendere le distanze
+                {
+                        return (limits.Item1 + radius + infra_obj_min_distance, limits.Item2 - radius - infra_obj_min_distance); //returno la media tra i due limiti
                     }
             }     
         }
@@ -151,7 +151,7 @@ public class Generator: MonoBehaviour //CLASSE PER GESTIRE LA GENERAZIONE PROCED
             return (-1, 0);
         } else //nel caso in cui non abbia ancora generato oggetto ritorno la media fra i limiti originari
         {
-            return (dist_range.Item1 + radius, dist_range.Item2 - radius); //restringo il range per comprendere lo spazio fisico dovuto al diametro dell'oggetto
+            return (dist_range.Item1 + radius + infra_obj_min_distance, dist_range.Item2 - radius); //restringo il range per comprendere lo spazio fisico dovuto al diametro dell'oggetto
         }
 
     }

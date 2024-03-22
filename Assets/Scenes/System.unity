@@ -370,7 +370,7 @@ MonoBehaviour:
   radius_scale_upper: 0.0803
   radius_scale_lower: 0.0036
   planet_perturbation_limit: 0.001
-  infra_obj_min_distance: 0
+  infra_obj_min_distance: 10
   max_moons_pp: 0
   max_planet_ps: 10
   max_suns_ps: 1
