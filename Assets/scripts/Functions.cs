@@ -77,10 +77,15 @@ public class Functions //CLASSE FUNZIONI DI SUPPORTO
     }
 
     //FUNZIONI PIANETI
-    public float get_g(float grav_mult, float mass, float radius) //calcola l'accelerazione gravitazionale
+    public float get_g(float grav_mult, float mass, float radius) //calcola l'accelerazione gravitazionale dell'oggetto
     {
         return (grav_mult * mass) / Mathf.Pow(radius, 2);
     }
+
+    public float get_mass(float g, float grav_mult, float radius) //calcola la massa dell'oggetto
+    {
+        return (Mathf.Pow(radius, 2) * g) / grav_mult;
+    } 
 
     public float get_T(float distance, float grav_mult, float mass, Rigidbody2D parent = null) //calcola il periodo di rivoluzione dell'oggetto
     {
@@ -115,16 +120,14 @@ public class Functions //CLASSE FUNZIONI DI SUPPORTO
         return r;
     }
 
+    public float get_influence_sphere(float distance, float mass_planet, float mass_star) //calcola il raggio di influenza del pianeta tenendo conto del corpo attorno a cui orbita(stella) --> con eccentricità trascurabile***
+    {
+        return distance * Mathf.Pow(mass_planet / (3 * mass_star), 1f / 3f);
+    }
     public float get_expected_temp(GameObject planet, GameObject sun) //calcola la temperatura di equilibrio del pianeta
     {
         return 0f;
     }
-
-    public float get_approximate_distance(GameObject sun,float distance_mult, float grav_mult) //ottiene la distanza ottimale dell'oggetto per orbitare attorno a sun ---> Formula semplificata
-    {
-        return (sun.GetComponent<Rigidbody2D>().mass) / distance_mult;
-    }
-
     public void print_composition((string, float)[] comp_array) //stampa a schermo la composizione dell'oggetto
     {
         Debug.Log("Composition : {\n");
@@ -163,7 +166,7 @@ public class Functions //CLASSE FUNZIONI DI SUPPORTO
                                                                 ('A', 0.006f),
                                                                 ('B', 0.0013f),
                                                                 ('O', 3E-06f)}; //main sequence -->percentuali cumulative di probabilita'
-    public string[] elementiPianeti = { //(CHATGPT)
+    public string[] elementiOggettiPlanetari = { //(CHATGPT)
         "Idrogeno",     // Comune in molti pianeti gassosi come Giove e Saturno
         "Elio",         // Anche questo abbondante nei pianeti gassosi
         "Ossigeno",     // Comune nella composizione di atmosfere e corpi rocciosi
@@ -177,7 +180,7 @@ public class Functions //CLASSE FUNZIONI DI SUPPORTO
         "Potassio",     // Trovato in tracce in varie forme di roccia e minerale
         "Calcio"        // Un elemento comune nelle rocce planetarie
     };
-    public string[] elementiAtmosferePianeti = {
+    public string[] elementiAtmosfereOggettiPlanetari = {
         "Azoto",        // Presente in abbondanza nell'atmosfera terrestre
         "Ossigeno",     // Importante per la respirazione e la vita come la conosciamo
         "Anidride carbonica", // Presente in atmosfere di pianeti come Marte e Venere
@@ -191,11 +194,11 @@ public class Functions //CLASSE FUNZIONI DI SUPPORTO
         "Ossido di azoto",  // Trovato in tracce in alcune atmosfere planetarie
         "Ozono"         // Importante per la protezione dagli UV nell'atmosfera terrestre
     };
-    public string[] classificazioneOggetti =
+    public string[] classificazioneOggetti = //Tipi di Object
     {
-        "Pianeta",
-        "Stella",
-        "Luna"
+        "Planet",
+        "Star",
+        "Moon"
     };
     //Strutture dati
     [System.Serializable]
@@ -210,4 +213,27 @@ public class Functions //CLASSE FUNZIONI DI SUPPORTO
             percentage = v;
         }
     }
+    [System.Serializable]
+    public struct PlanetaryObjConfig //Struttura di personalizzazione generazione oggetto planetario
+    {
+        [Range(0f, 1f)] public float albedo_min; //limite minimo generazione albedo
+        [Range(0f, 1f)] public float albedo_max; //limite massimo generazione albedo
+        [Range(0f, 10f)] public float vel_rot_min; //limite minimo generazione velocita' di rotazione oggetto
+        [Range(0f, 10f)] public float vel_rot_max; //limite massimo generazione velocita' di rotazione oggetto
+        [Range(0f, 20f)] public float g_min; //limite minimo generazione accelerazione grav. superficiale
+        [Range(0f, 20f)] public float g_max; //limite minimo generazione accelerazione grav. superficiale
+        [Range(0f, 1f)] public float radius_scale_min; //limite minimo generazione raggio in scala rispetto a orbitee
+        [Range(0f, 1f)] public float radius_scale_max; //limite minimo generazione raggio in scala rispetto a orbitee
+        [Range(0f, 1000f)] public float age_min; //limite minimo generazione age
+        [Range(0f, 1000f)] public float age_max; //limite minimo generazione age
+        public string class_name; //Classificazione oggetto planetario
+    }
+
+    [System.Serializable]
+    public struct PlanetaryConfig //struttura wrapper di personalizzazione generazione oggetti
+    {
+        public PlanetaryObjConfig planet_config; //versione pianeta
+        public PlanetaryObjConfig moon_config; //versione luna
+    }
+
 }

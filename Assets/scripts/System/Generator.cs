@@ -1,9 +1,12 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
 using System.Data;
 using System.Linq;
 using System.Net;
+using Unity.VisualScripting;
 using UnityEngine;
+using static Functions;
 
 public class Generator: MonoBehaviour //CLASSE PER GESTIRE LA GENERAZIONE PROCEDURALE DEI SISTEMI (Generazione Top-Down)
 {
@@ -13,29 +16,19 @@ public class Generator: MonoBehaviour //CLASSE PER GESTIRE LA GENERAZIONE PROCED
     public ObjectGenerator obj_gen = new ObjectGenerator();
     public Functions fun = new Functions();
 
-    //PIANETI E LUNE
-    //range di valori generati in base a criteri (RANGE GENERATI)
-    (float, float) mass_range, radius_range, distance_range; //modificati al momento della generazione degli oggetti
-    //range di valori arbitrario scelto da me (RANGE ARBITRARI) -->Assumo queste costanti come indipendenti dal contesto in cui ci troviamo
-    [Range(0f, 1f)] public float albedo_min; //limite minimo generazione albedo
-    [Range(0f, 1f)] public float albedo_max; //limite minimo generazione albedo
-    [Range(0f, 10f)] public float rot_min; //limite minimo generazione velocita' di rotazione oggetto
-    [Range(0f, 10f)] public float rot_max; //limite massimo generazione velocita' di rotazione oggetto
-    [Range(0f, 300f)] public float planet_distance_div; //moltiplicatore distanza pianeta --> inversamente proporzionale alla distanza degli oggeti
-    [Range(0f, 1000f)] public float moon_distance_div; //moltiplicatore distanza luna --> inversamente proporzionale alla distanza degli oggeti
-    [Range(0f, 0.001f)] public float mass_scale_upper; //limite massimo moltiplicatore generazione massa oggetti
-    [Range(0f, 0.001f)] public float mass_scale_lower; //limite minimo moltiplicatore generazione massa oggetti
-    [Range(0f, 0.10f)] public float radius_scale_upper; //limite massimo moltiplicatore generazione massa oggetti
-    [Range(0f, 0.10f)] public float radius_scale_lower; //limite minimo moltiplicatore generazione massa oggetti 
+    //Limiti simulazione
     [Range(0.0000001f, 100f)] public float planet_perturbation_limit; //limite forza massimo perturbazioni orbitali
-    [Range(0f, 100f)] public float infra_obj_min_distance; //minima distanza fisica possibile fra i pianeti
-    //[Range(0f, 1f)] public float moon_perturbation_limit; //limite forza massimo perturbazioni orbitali
+    [Range(0.0000001f, 100f)] public float moon_perturbation_limit; //limite forza massimo perturbazioni orbitali
+    [Range(0f, 100f)] public float infra_planet_min_distance; //minima distanza fisica possibile fra i pianeti
+    [Range(0f, 100f)] public float infra_moon_min_distance; //minima distanza fisica possibile fra i pianeti
+    [Range(0f, 3f)] public float moon_distance_mult; //moltiplicatore distanza generazione lune
+    [Range(0f, 10000f)] public float max_system_lenght; //distanza massima di generazione pianeti 
+    [Range(0f, 100f)] public int max_moons_pp; //numero massimo di lune per pianeta
+    [Range(0f, 100f)] public int max_planet_ps; //numero massimo di pianeti per ogni sole
+    [Range(0f, 100f)] public int max_suns_ps; //numero massimo di soli per sistema planetario
 
-    //STELLE
-    //Limiti numero oggetti generati
-    public int max_moons_pp = 1; //numero massimo di lune per pianeta
-    public int max_planet_ps = 1; //numero massimo di pianeti per ogni sole
-    public int max_suns_ps = 1; //numero massimo di soli per sistema planetario
+    //Configurazione Pianeti
+    public List<PlanetaryConfig> planetary_config;
 
     public Dictionary<Rigidbody2D, Dictionary<Rigidbody2D, List<Rigidbody2D>>> generate_system() 
     {
@@ -43,11 +36,11 @@ public class Generator: MonoBehaviour //CLASSE PER GESTIRE LA GENERAZIONE PROCED
         for (int i = 0; i < max_suns_ps; i++) //per ogni sole da generare
         {
             Rigidbody2D sun = generate_sun().GetComponent<Rigidbody2D>();
-            List<Rigidbody2D> planets = generate_planets(sun.gameObject, fun.classificazioneOggetti[0], max_planet_ps);
+            List<Rigidbody2D> planets = generate_planetary_objects(sun.gameObject, fun.classificazioneOggetti[0], max_planet_ps);
             Dictionary<Rigidbody2D, List<Rigidbody2D>> orbiters = new Dictionary<Rigidbody2D, List<Rigidbody2D>>();
             foreach (Rigidbody2D planet in planets) //genero le lune per ogni pianeta
             {
-                List<Rigidbody2D> moons = generate_planets(planet.gameObject, fun.classificazioneOggetti[2], max_moons_pp); //ottengo le lune generate per il pianeta
+                List<Rigidbody2D> moons = generate_planetary_objects(planet.gameObject, fun.classificazioneOggetti[2], max_moons_pp); //ottengo le lune generate per il pianeta
                 orbiters.Add(planet, moons); //aggiungo il pianeta con le sue lune generate al dizionario
             }
             system.Add(sun, orbiters); //aggiungo il sole e i suoi pianeti e lune orbitanti al sistema
@@ -55,59 +48,61 @@ public class Generator: MonoBehaviour //CLASSE PER GESTIRE LA GENERAZIONE PROCED
         return system;
     }
 
-    List<Rigidbody2D> generate_planets(GameObject orbitee, string type, int max)//genera gli oggetti attorno all'oggetto orbitee (pianeti / lune)
+    List<Rigidbody2D> generate_planetary_objects(GameObject orbitee, string type, int max_objs)//Generazione pianeti
     {
         List<Rigidbody2D> orbiters = new List<Rigidbody2D>();
-        //determino i range dei valori da assegnare
-        Object dati_obj = orbitee.GetComponent<Object>(); //non mi serve sapere che oggetto sia, in quanto le informazioni di cui ho bisogno sono poche
-        mass_range = get_range(dati_obj.mass, mass_scale_lower, mass_scale_upper);
-        radius_range =  get_range(dati_obj.radius, radius_scale_lower, radius_scale_upper);
-        get_distance_range(type, orbitee);
-        int obj_number = UnityEngine.Random.Range(0, max + 1); //stabiliamo il numero di oggetti da generare
-        //genero gli oggetti
-
-        for (int i = 0; i < obj_number; i++) //per ogni oggetto da generare le assegno caratteristiche semi-randomiche(dipendenti dalle caratteristiche di orbitee)
+        //Stabilisco il numero degli oggetti da provare a generare
+        int num_objs = UnityEngine.Random.Range(0, max_objs + 1); //da 0 a max_objs estremi inclusi
+        //stabilisco il range di generazione dei pianeti
+        //Distinguo il caso pianeta dal caso luna
+        float max_distance; float infra_min;
+        if (type.CompareTo(fun.classificazioneOggetti[2]) == 0) //devo generare delle lune
         {
-            float obj_radius = UnityEngine.Random.Range(radius_range.Item1, radius_range.Item2);
-            float obj_mass = UnityEngine.Random.Range(mass_range.Item1, mass_range.Item2);
-            (float, float) new_dist_range =  squeeze_in(orbiters,orbitee, obj_radius, obj_mass, distance_range); //ottengo nuovo range 
-            if (new_dist_range.Item1 == -1) //nel caso fallisca la generazione di una distanza, non genero l'oggetto e provo con il successivo (salto il resto del for)
+            //calcolo la sfera di influenza di orbitee
+            PlanetaryObject pianeta = orbitee.GetComponent<PlanetaryObject>();
+            max_distance = moon_distance_mult * fun.get_influence_sphere(pianeta.distance, pianeta.mass, pianeta.parent.mass);
+            //Caso Critico: max_distance dentro il raggio del pianeta
+            infra_min = infra_moon_min_distance;
+        } else //devo generare dei pianeti
+        {
+            max_distance = max_system_lenght;
+            infra_min = infra_planet_min_distance;
+        }
+        (float, float) distance_range = (orbitee.GetComponent<Object>().radius, max_distance); //genero il range di distanza
+        print(distance_range);
+        for (int i = 0; i < num_objs; i++) //per ogni oggetto da provare a generare
+        {
+            //stabilisco il tipo di pianeta da generare
+            PlanetaryObjConfig planet_config = get_random_type(type); //tipo pianeta
+            float planet_g = UnityEngine.Random.Range(planet_config.g_min, planet_config.g_max); //usata per calcolare massa dato il raggio
+            float planet_radius = UnityEngine.Random.Range(orbitee.GetComponent<Object>().radius * planet_config.radius_scale_min, orbitee.GetComponent<Object>().radius * planet_config.radius_scale_max); //genero raggio in scala rispetto a orbitee
+            float planet_rot_vel = UnityEngine.Random.Range(planet_config.vel_rot_min, planet_config.vel_rot_max);
+            float planet_albedo = UnityEngine.Random.Range(planet_config.albedo_min, planet_config.albedo_max);
+            float planet_mass = fun.get_mass(planet_g, System.GetComponent<Gravitation>().grav_multiplier, planet_radius);
+            float planet_age = UnityEngine.Random.Range(planet_config.age_min, planet_config.age_max);
+            CompTuple[] planet_comp = generate_comp(fun.elementiOggettiPlanetari);
+            CompTuple[] planet_atm_comp = generate_comp(fun.elementiAtmosfereOggettiPlanetari);
+            //generazione distanza pianeta
+            (float, float) new_distance_range = squeeze_in(orbiters, planet_radius, planet_mass, distance_range, infra_min);
+            if (new_distance_range.Item1 == -1) //non ho trovato la distanza ottimale, salto il resto del loop
             {
-                continue; 
+                continue;
             }
-            float obj_distance = UnityEngine.Random.Range(new_dist_range.Item1, new_dist_range.Item2);
-            float obj_albedo = UnityEngine.Random.Range(albedo_min, albedo_max);
-            float obj_age = UnityEngine.Random.Range(0f, dati_obj.age); //l'oggetto orbitante deve essere piu giovane di orbitee
-            float obj_rot = UnityEngine.Random.Range(rot_min, rot_max);
-            Functions.CompTuple[] obj_comp = generate_comp(fun.elementiPianeti);
-            Functions.CompTuple[] obj_atm_comp = generate_comp(fun.elementiAtmosferePianeti);
-            GameObject obj = obj_gen.initialize_planet(obj_radius, obj_mass, type, fun.RandomString(10), System, obj_distance, orbitee.GetComponent<Rigidbody2D>(), obj_age,
-                                                     obj_rot,obj_albedo, obj_comp, obj_atm_comp); //creazione oggetto effettivo
-            orbiters.Add(obj.GetComponent<Rigidbody2D>()); //aggiungo l'oggetto creato alla lista
+            float planet_distance = UnityEngine.Random.Range(new_distance_range.Item1, new_distance_range.Item2);
+            GameObject planetary_obj = obj_gen.initialize_planetary_object(planet_radius, planet_mass, type, fun.RandomString(10), System, planet_distance, orbitee.GetComponent<Rigidbody2D>(), planet_age,
+                                                     planet_rot_vel, planet_albedo, planet_comp, planet_atm_comp, planet_config.class_name); //creazione oggetto effettivo
+            //aggiunta oggetto a lista di orbiters
+            orbiters.Add(planetary_obj.GetComponent<Rigidbody2D>());
         }
         return orbiters;
    
     }
 
-    void get_distance_range(string type, GameObject orbitee) //ottiene il range in cui i pianeti/lune possono spawnare
-    {
-        float dist_mult; 
-        if (type.CompareTo(fun.classificazioneOggetti[0]) == 0) { //se l'oggetto e' un pianeta
-            dist_mult = planet_distance_div;
-        } 
-        else {  //se l'oggetto e' una luna
-            dist_mult = moon_distance_div;
-        }
-        float approx_optimal_distance = fun.get_approximate_distance(orbitee, dist_mult, System.GetComponent<Gravitation>().grav_multiplier); //ottengo distanza ottimale dell'oggetto da orbitee
-        distance_range = (orbitee.GetComponent<Object>().radius, orbitee.GetComponent<Object>().radius + approx_optimal_distance); //stabilisco il range, e faccio in modo che il limite minimo sia pari al raggio del padre e il massimo pari alla distanza ottenuta con la funzione
-        //(raggio_orbitee + minima distanza fra pianeti, massima distanza pianeti da orbitee)
-        print(distance_range);
-    }
 
-     (float, float) squeeze_in(List<Rigidbody2D> generated_objs,GameObject Orbitee, float radius,float mass, (float, float) dist_range) //trova il primo intervallo utile di generazione delle distanze per pianeti e lune --> motivo per cui i pianeti si "accumulano" vicino alla stella
+    (float, float) squeeze_in(List<Rigidbody2D> generated_objs,float radius, float mass, (float, float) dist_range, float infra_obj_min_distance) //trova il primo intervallo utile di generazione delle distanze per pianeti e lune --> motivo per cui i pianeti si "accumulano" vicino alla stella
     {
         //Ordino la lista degli oggetti generati per la loro distanza dal sole (in modo crescente)
-        generated_objs.Sort((obj1, obj2) => obj1.GetComponent<Planet>().distance.CompareTo(obj2.GetComponent<Planet>().distance));
+        generated_objs.Sort((obj1, obj2) => obj1.GetComponent<PlanetaryObject>().distance.CompareTo(obj2.GetComponent<PlanetaryObject>().distance));
 
         foreach (Rigidbody2D obj in generated_objs)
         {
@@ -115,58 +110,67 @@ public class Generator: MonoBehaviour //CLASSE PER GESTIRE LA GENERAZIONE PROCED
             //1 caso
             if (generated_objs.IndexOf(obj) == 0)
             {
-                    //trovo,se esiste, la distanza ottimale di generazione dell'oggetto tale che non ci siano perturbazioni orbitali con il vicino
-                    //(trovo la distanza dall'oggetto che poi devo sottrarre alla sua distanza dal sole per ottenere quello che mi serve effettivamente)
-                    float offset = fun.get_r(mass, obj.gameObject, planet_perturbation_limit, System.GetComponent<Gravitation>().grav_multiplier);
-                    float distance = (obj.GetComponent<Planet>().distance - offset); //a sinistra del pianeta
-                    if (dist_range.Item1 + radius + infra_obj_min_distance < distance - radius - infra_obj_min_distance) //range --> Compreso tra Orbitee e Oggetto da cui prendere le distanze
-                    {
-                        return (dist_range.Item1 + radius , distance - radius - infra_obj_min_distance);
-                    } else if (generated_objs.Count == 1) //nel caso sia presente solo un elemento devo assegnargli l'intervallo successivo direttamente qui (pena un eccezione)
-                    {
-                        return (obj.GetComponent<Planet>().distance + offset + radius + infra_obj_min_distance, dist_range.Item2 - radius);
-                    }
-            } else if (generated_objs.IndexOf(obj) == generated_objs.Count - 1) //3 Caso
-            {
-                    float offset = fun.get_r(mass, obj.gameObject, planet_perturbation_limit, System.GetComponent<Gravitation>().grav_multiplier);
-                    float distance = obj.GetComponent<Planet>().distance + offset; //a destra del pianeta
-                    if (distance + radius + infra_obj_min_distance < dist_range.Item2 - radius) //range --> Compreso tra Oggetto da cui prendere le distanze e limite massimo di distanza
+                //trovo, se esiste, la distanza ottimale di generazione dell'oggetto tale che non ci siano perturbazioni orbitali con il vicino
+                float offset = fun.get_r(mass, obj.gameObject, planet_perturbation_limit, System.GetComponent<Gravitation>().grav_multiplier);
+                float distance = (obj.GetComponent<PlanetaryObject>().distance - offset); //a sinistra del pianeta
+                if (dist_range.Item1 + radius + infra_obj_min_distance < distance - radius - infra_obj_min_distance) //range --> Compreso tra Orbitee e Oggetto da cui prendere le distanze
                 {
-                        return (distance + radius + infra_obj_min_distance, dist_range.Item2 - radius);
-                    }
-            } else //2 Caso (Caso generale)
-            {
-                    float offset1 = fun.get_r(mass, obj.gameObject, planet_perturbation_limit, System.GetComponent<Gravitation>().grav_multiplier); //distanza necessaria all oggetto 1
-                    float offset2 = fun.get_r(mass, generated_objs.ElementAt(generated_objs.IndexOf(obj) + 1).gameObject, planet_perturbation_limit, System.GetComponent<Gravitation>().grav_multiplier); //distanza necessaria all oggetto 2
-                    (float, float) limits = (obj.GetComponent<Planet>().distance + offset1, generated_objs.ElementAt(generated_objs.IndexOf(obj) + 1).GetComponent<Planet>().distance - offset2);
-                    if (limits.Item1 + radius + infra_obj_min_distance < limits.Item2 - radius - infra_obj_min_distance) //range --> Compreso tra Oggetto1 da cui prendere le distanze e Oggetto2 da cui prendere le distanze
+                    return (dist_range.Item1 + radius, distance - radius - infra_obj_min_distance);
+                }
+                else if (generated_objs.Count == 1) //nel caso sia presente solo un elemento devo assegnargli l'intervallo successivo direttamente qui (pena un eccezione)
                 {
-                        return (limits.Item1 + radius + infra_obj_min_distance, limits.Item2 - radius - infra_obj_min_distance); //returno la media tra i due limiti
-                    }
-            }     
+                    if (obj.GetComponent<PlanetaryObject>().distance + offset + radius + infra_obj_min_distance < dist_range.Item2 - radius) //range --> Compreso tra Oggetto da cui prendere le distanze e limite massimo distanza sistema
+                    {
+                        return (obj.GetComponent<PlanetaryObject>().distance + offset + radius + infra_obj_min_distance, dist_range.Item2 - radius);
+                    }  
+                }
+            }
+            else if (generated_objs.IndexOf(obj) == generated_objs.Count - 1) //3 Caso
+            {
+                float offset = fun.get_r(mass, obj.gameObject, planet_perturbation_limit, System.GetComponent<Gravitation>().grav_multiplier);
+                float distance = obj.GetComponent<PlanetaryObject>().distance + offset; //a destra del pianeta
+                if (distance + radius + infra_obj_min_distance < dist_range.Item2 - radius) //range --> Compreso tra Oggetto da cui prendere le distanze e limite massimo di distanza
+                {
+                    return (distance + radius + infra_obj_min_distance, dist_range.Item2 - radius);
+                }
+            }
+            else //2 Caso (Caso generale)
+            {
+                float offset1 = fun.get_r(mass, obj.gameObject, planet_perturbation_limit, System.GetComponent<Gravitation>().grav_multiplier); //distanza necessaria all oggetto 1
+                float offset2 = fun.get_r(mass, generated_objs.ElementAt(generated_objs.IndexOf(obj) + 1).gameObject, planet_perturbation_limit, System.GetComponent<Gravitation>().grav_multiplier); //distanza necessaria all oggetto 2
+                (float, float) limits = (obj.GetComponent<PlanetaryObject>().distance + offset1, generated_objs.ElementAt(generated_objs.IndexOf(obj) + 1).GetComponent<PlanetaryObject>().distance - offset2);
+                if (limits.Item1 + radius + infra_obj_min_distance < limits.Item2 - radius - infra_obj_min_distance) //range --> Compreso tra Oggetto1 da cui prendere le distanze e Oggetto2 da cui prendere le distanze
+                {
+                    return (limits.Item1 + radius + infra_obj_min_distance, limits.Item2 - radius - infra_obj_min_distance); //returno la media tra i due limiti
+                }
+            }
         }
-        if(generated_objs.Count != 0) //se arrivo qui e gli oggetti da piazzare sono > 0 allora e' perche' non ho trovato il range, per cui lancio errore
+        if (generated_objs.Count != 0) //se arrivo qui e gli oggetti piazzati sono > 0 allora e' perche' non ho trovato il range, per cui lancio errore
         {
-            Debug.Log("Optimal range not found while generating objs \nLimiting planet generation");
+            Debug.LogError("Optimal range not found while generating objs \nLimiting planet generation");
             return (-1, 0);
-        } else //nel caso in cui non abbia ancora generato oggetto ritorno la media fra i limiti originari
+        }
+        else //nel caso in cui non abbia ancora generato un oggetto ritorno la media fra i limiti originari
         {
-            return (dist_range.Item1 + radius + infra_obj_min_distance, dist_range.Item2 - radius); //restringo il range per comprendere lo spazio fisico dovuto al diametro dell'oggetto
+            if (dist_range.Item1 + radius + infra_obj_min_distance < dist_range.Item2 - radius) //controllo che il range di default sia valido
+            {
+                return (dist_range.Item1 + radius + infra_obj_min_distance, dist_range.Item2 - radius); //restringo il range per comprendere lo spazio fisico dovuto al diametro dell'oggetto
+            } else //range di default non valido, errore
+            {
+                Debug.LogError("Default Range not valid \nLimiting planet generation");
+                return (-1, 0);
+            }
+            
         }
 
     }
 
-     GameObject generate_sun() //generazione stelle 
+    GameObject generate_sun() //generazione stelle 
      {
         char spectrum = get_spectrum(fun.stars_spectres); //genero lo spettro
-        GameObject sun = obj_gen.initialize_star(10f, 500000f, "Stella", "Sole", System, 100f, 1f, 10f, spectrum); //HARDCODED per ora
+        GameObject sun = obj_gen.initialize_stellar_object(10f, 50000f, "Star", "Sole", System, 100f, 1f, 10f, spectrum); //HARDCODED per ora
         return sun;
      }
-
-    (float, float) get_range(float datum, float lower_mult, float upper_mult) //ottiene range in scala rispetto al valore datum
-    {
-        return (datum * lower_mult,  datum * upper_mult);
-    }
     Functions.CompTuple[] generate_comp(string[] comp_data) //genera la composizione dell'oggetto (per ora totalmente randomico)
     {
         List<string> comp_list = new List<string>(); //converto l'array in una lista 
@@ -202,5 +206,14 @@ public class Generator: MonoBehaviour //CLASSE PER GESTIRE LA GENERAZIONE PROCED
         //determino la stealla estratta
         spectrum = spectres[index].Item1;
         return spectrum;
+    }
+    PlanetaryObjConfig get_random_type(string type) //per ottenere il file di configurazione di un tipo di pianeta randomico
+    {
+        int index = UnityEngine.Random.Range(0, planetary_config.Count);
+
+        if (type.CompareTo(fun.classificazioneOggetti[2]) == 0){  //Caso luna
+            return planetary_config.ElementAt(index).moon_config;
+        }//Caso pianeta
+        return planetary_config.ElementAt(index).planet_config;
     }
 }

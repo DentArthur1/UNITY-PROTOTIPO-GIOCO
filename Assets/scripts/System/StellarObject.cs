@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Star : Object //Classe per gestire l'oggetto Stella
+public class StellarObject : Object //Classe per gestire gli oggetti di classe stellare
 {
     public float lum; //luminosita' stella
     public float temp; //temperatura stella

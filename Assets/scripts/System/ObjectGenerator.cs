@@ -1,3 +1,4 @@
+
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -5,7 +6,7 @@ using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
 
 
-public class ObjectGenerator //CLASSE PER GESTIRE LA GENERAZIONE DEGLI OGGETTI PIANETA, LUNA e STELLA
+public class ObjectGenerator //CLASSE PER GESTIRE LA GENERAZIONE DEGLI OGGETTI PLANETARI E STELLARI
 {
     //Classi di supporto
     public GameObject obj; //oggetto creato e a cui viene e assegnata la classe Object
@@ -13,49 +14,49 @@ public class ObjectGenerator //CLASSE PER GESTIRE LA GENERAZIONE DEGLI OGGETTI P
     private Gravitation god; //classe gravitation
     private Functions fun = new Functions(); //classe funzioni ausiliarie
 
-    //COSTRUZIONE PIANETA
-    public GameObject initialize_planet(float radius, float mass, string type, string name, GameObject sys, float distance, Rigidbody2D parent,
-        float age, float rot,float albedo, Functions.CompTuple[] terrain_comp, Functions.CompTuple[] atm_comp) //Wrapper per gestire la generazione dell'oggetto pianeta
+    //COSTRUZIONE OGGETTO PLANETARIO
+    public GameObject initialize_planetary_object(float radius, float mass, string type, string name, GameObject sys, float distance, Rigidbody2D parent,
+        float age, float rot,float albedo, Functions.CompTuple[] terrain_comp, Functions.CompTuple[] atm_comp, string planetary_class) //Wrapper per gestire la generazione dell'oggetto PLANETARIO
     {
         god = sys.GetComponent<Gravitation>(); //riferimento classe gravitation(sistema)
-        generate_planet(radius, mass, type, name, distance, parent, age, rot, albedo, terrain_comp, atm_comp, sys); //generazione oggetto
+        generate_planetary_object(radius, mass, type, name, distance, parent, age, rot, albedo, terrain_comp, atm_comp, sys, planetary_class); //generazione oggetto
         return obj;
     }
-    void generate_planet(float radius, float mass, string type, string name, float distance, Rigidbody2D parent,
-       float age, float rot,float albedo, Functions.CompTuple[] terrain_comp, Functions.CompTuple[] atm_comp, GameObject sys)
+    void generate_planetary_object(float radius, float mass, string type, string name, float distance, Rigidbody2D parent,
+       float age, float rot,float albedo, Functions.CompTuple[] terrain_comp, Functions.CompTuple[] atm_comp, GameObject sys, string planetary_class)
     {
         create_body(type, sys);
         assign_base_values(radius, mass, type, name,age, rot);
-        assign_planet_values(parent, distance, albedo, terrain_comp, atm_comp);
+        assign_planetary_values(parent, distance, albedo, terrain_comp, atm_comp, planetary_class);
         shape_body(mass, radius);
         give_distance(distance, parent);
     }
-    void give_distance(float distance, Rigidbody2D parent) //assegna la distanza dalla stella o pianeta 
+    void give_distance(float distance, Rigidbody2D parent) //assegna la distanza dall'oggetto stellare o planetario
     {
         obj.transform.position = new Vector3(parent.transform.position.x + distance, parent.transform.position.y, 0);
     }
-    void assign_planet_values(Rigidbody2D parent, //assegno i valori specifici dell'oggetto pianeta
-         float distance, float albedo, Functions.CompTuple[] terrain_comp, Functions.CompTuple[] atm_comp)
+    void assign_planetary_values(Rigidbody2D parent, //assegno i valori specifici dell'oggetto planetario
+         float distance, float albedo, Functions.CompTuple[] terrain_comp, Functions.CompTuple[] atm_comp, string planetary_class)
     {
-        Planet dati_pianeta = obj.GetComponent<Planet>();
+        PlanetaryObject dati_pianeta = obj.GetComponent<PlanetaryObject>();
         dati_pianeta.terrain_comp = terrain_comp; dati_pianeta.albedo = albedo;
-        dati_pianeta.parent = parent; dati_pianeta.distance = distance;
+        dati_pianeta.parent = parent; dati_pianeta.distance = distance; dati_pianeta.class_ = planetary_class;
         dati_pianeta.atm_comp = atm_comp; dati_pianeta.period = fun.get_T(distance, god.grav_multiplier, dati_pianeta.mass, dati_pianeta.parent);
     }
-    //COSTRUZIONE STELLA
-    public GameObject initialize_star(float radius, float mass, string type, string name, GameObject sys,
-        float age, float rot,float lum, char spectrum) //Wrapper per gestire la generazione dell'oggetto stella
+    //COSTRUZIONE OGGETTO STELLARE
+    public GameObject initialize_stellar_object(float radius, float mass, string type, string name, GameObject sys,
+        float age, float rot,float lum, char spectrum) //Wrapper per gestire la generazione dell'oggetto stellare
     {
         god = sys.GetComponent<Gravitation>();
-        generate_star(radius, mass, type, name, age, rot, lum, spectrum, sys);
+        generate_stellar_object(radius, mass, type, name, age, rot, lum, spectrum, sys);
         return obj;
     }
-    public void generate_star(float radius, float mass, string type, string name,
+    public void generate_stellar_object(float radius, float mass, string type, string name,
        float age, float rot,float lum, char spectrum, GameObject sys)
     {
         create_body(type, sys);
         assign_base_values(radius, mass, type, name, age, rot);
-        assign_star_values(lum, spectrum);
+        assign_stellar_values(lum, spectrum);
         shape_body(mass, radius);
         set_spawn(god.transform.position);
     }
@@ -64,9 +65,9 @@ public class ObjectGenerator //CLASSE PER GESTIRE LA GENERAZIONE DEGLI OGGETTI P
         obj.transform.position = pos;
     }
 
-    void assign_star_values(float lum, char spectrum) //Assegno i valori specifici cell'oggetto stella
+    void assign_stellar_values(float lum, char spectrum) //Assegno i valori specifici cell'oggetto stellare
     {
-          Star dati_stella = obj.GetComponent<Star>();
+          StellarObject dati_stella = obj.GetComponent<StellarObject>();
           dati_stella.spectre = spectrum; dati_stella.lum = lum;
     }
 
@@ -94,11 +95,11 @@ public class ObjectGenerator //CLASSE PER GESTIRE LA GENERAZIONE DEGLI OGGETTI P
     {
         if (type.CompareTo(fun.classificazioneOggetti[0]) == 0 || type.CompareTo(fun.classificazioneOggetti[2]) == 0) //se l'oggetto e' un pianeta o una luna ne creo l'oggetto corrispondente
         {
-            obj.AddComponent<Planet>();
+            obj.AddComponent<PlanetaryObject>();
         }
         else if (type.CompareTo(fun.classificazioneOggetti[1]) == 0) //se l'oggetto e' una stella
         {
-            obj.AddComponent<Star>();
+            obj.AddComponent<StellarObject>();
         }
     }
     void assign_base_values(float radius, float mass, string type, string name,
