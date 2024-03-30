@@ -1,10 +1,5 @@
-
-using System.Collections;
-using System.Collections.Generic;
 using Unity.VisualScripting;
-using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
-
 
 public class ObjectGenerator //CLASSE PER GESTIRE LA GENERAZIONE DEGLI OGGETTI PLANETARI E STELLARI
 {
@@ -26,10 +21,10 @@ public class ObjectGenerator //CLASSE PER GESTIRE LA GENERAZIONE DEGLI OGGETTI P
        float age, float rot,float albedo, Functions.CompTuple[] terrain_comp, Functions.CompTuple[] atm_comp, GameObject sys, string planetary_class)
     {
         create_body(type, sys);
+        give_distance(distance, parent);
         assign_base_values(radius, mass, type, name,age, rot);
         assign_planetary_values(parent, distance, albedo, terrain_comp, atm_comp, planetary_class);
         shape_body(mass, radius);
-        give_distance(distance, parent);
     }
     void give_distance(float distance, Rigidbody2D parent) //assegna la distanza dall'oggetto stellare o planetario
     {
@@ -41,22 +36,23 @@ public class ObjectGenerator //CLASSE PER GESTIRE LA GENERAZIONE DEGLI OGGETTI P
         PlanetaryObject dati_pianeta = obj.GetComponent<PlanetaryObject>();
         dati_pianeta.terrain_comp = terrain_comp; dati_pianeta.albedo = albedo;
         dati_pianeta.parent = parent; dati_pianeta.distance = distance; dati_pianeta.class_ = planetary_class;
-        dati_pianeta.atm_comp = atm_comp; dati_pianeta.period = fun.get_T(distance, god.grav_multiplier, dati_pianeta.mass, dati_pianeta.parent);
+        dati_pianeta.atm_comp = atm_comp;
+        dati_pianeta.initial_velocity = fun.get_orbital_vel(parent.gameObject, obj.gameObject, god.grav_multiplier);
     }
     //COSTRUZIONE OGGETTO STELLARE
     public GameObject initialize_stellar_object(float radius, float mass, string type, string name, GameObject sys,
-        float age, float rot,float lum, char spectrum) //Wrapper per gestire la generazione dell'oggetto stellare
+        float age, float rot,float lum, char spectrum, float temp) //Wrapper per gestire la generazione dell'oggetto stellare
     {
         god = sys.GetComponent<Gravitation>();
-        generate_stellar_object(radius, mass, type, name, age, rot, lum, spectrum, sys);
+        generate_stellar_object(radius, mass, type, name, age, rot, lum, spectrum, sys, temp);
         return obj;
     }
     public void generate_stellar_object(float radius, float mass, string type, string name,
-       float age, float rot,float lum, char spectrum, GameObject sys)
+       float age, float rot,float lum, char spectrum, GameObject sys, float temp)
     {
         create_body(type, sys);
         assign_base_values(radius, mass, type, name, age, rot);
-        assign_stellar_values(lum, spectrum);
+        assign_stellar_values(lum, spectrum, temp);
         shape_body(mass, radius);
         set_spawn(god.transform.position);
     }
@@ -65,10 +61,10 @@ public class ObjectGenerator //CLASSE PER GESTIRE LA GENERAZIONE DEGLI OGGETTI P
         obj.transform.position = pos;
     }
 
-    void assign_stellar_values(float lum, char spectrum) //Assegno i valori specifici cell'oggetto stellare
+    void assign_stellar_values(float lum, char spectrum, float temp) //Assegno i valori specifici cell'oggetto stellare
     {
           StellarObject dati_stella = obj.GetComponent<StellarObject>();
-          dati_stella.spectre = spectrum; dati_stella.lum = lum;
+          dati_stella.spectre = spectrum; dati_stella.lum = lum; dati_stella.temp = temp;
     }
 
     //Funzioni Comuni a tutti i tipi di oggetti 
@@ -88,7 +84,6 @@ public class ObjectGenerator //CLASSE PER GESTIRE LA GENERAZIONE DEGLI OGGETTI P
     void create_body(string type, GameObject system) //crea l'oggetto e ne aggiunge una componente rigidbody
     {
         obj = GameObject.Instantiate(god.template, system.transform);
-        obj.AddComponent<Rigidbody2D>(); obj.GetComponent<Rigidbody2D>().angularDrag = 0; obj.GetComponent<Rigidbody2D>().gravityScale = 0;
         add_component(type);
     }
     void add_component(string type) //Aggiunge la componente determinata da type all'oggetto
@@ -110,7 +105,8 @@ public class ObjectGenerator //CLASSE PER GESTIRE LA GENERAZIONE DEGLI OGGETTI P
         dati.radius = radius; dati.mass = mass; dati.type = type;
         dati.age = age; dati.rot = rot; dati.name = name;
         dati.volume = fun.get_volume(radius); dati.g = fun.get_g(god.grav_multiplier, mass, radius);
-        dati.escape_vel = fun.get_escape_vel(god.grav_multiplier, radius, mass);
+        dati.escape_vel = fun.get_escape_vel(dati.g, radius);
         dati.density = fun.get_density(dati.mass, dati.volume);
+        dati.G_COST = god.grav_multiplier;
     }
 }

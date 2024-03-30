@@ -21,10 +21,11 @@ public class View : MonoBehaviour //SCRIPT PER IL MOVIMENTO DELLA VIDEOCAMERA PR
     // Update is called once per frame
     void Update()
     {
-        Vector3 off_set_target = new Vector3(target.position.x, target.position.y, 0);
-        main_cam.transform.position = Vector3.MoveTowards(main_cam.transform.position, off_set_target, Time.deltaTime * smooth_follow); //interpola linearmente il valore della posizione della camera tra quello attuale e il target
         zoom -= Input.GetAxis("Mouse ScrollWheel") * zoom_scroll; //ottengo l'input del mouse
         main_cam.orthographicSize = Mathf.SmoothDamp(main_cam.orthographicSize, zoom, ref vel, zoom_speed); //applico la variazione allo zoom della camera
         zoom = Mathf.Clamp(zoom, max_zoom_in, max_zoom_out); //confino lo zoom della camera tra max_zoom_in e max_zoom_out
+        Vector3 off_set_target = new Vector3(target.position.x, target.position.y, 0);
+        main_cam.transform.position = Vector3.MoveTowards(main_cam.transform.position, off_set_target, Time.deltaTime * smooth_follow); //interpola linearmente il valore della posizione della camera tra quello attuale e il target
     }
+
 }

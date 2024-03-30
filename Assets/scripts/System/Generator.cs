@@ -1,10 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.Design;
-using System.Data;
 using System.Linq;
-using System.Net;
-using Unity.VisualScripting;
 using UnityEngine;
 using static Functions;
 
@@ -29,6 +25,9 @@ public class Generator: MonoBehaviour //CLASSE PER GESTIRE LA GENERAZIONE PROCED
 
     //Configurazione Pianeti
     public List<PlanetaryConfig> planetary_config;
+
+    //Configurazione stelle
+    public List<StellarConfig> stellar_config;
 
     public Dictionary<Rigidbody2D, Dictionary<Rigidbody2D, List<Rigidbody2D>>> generate_system() 
     {
@@ -60,7 +59,7 @@ public class Generator: MonoBehaviour //CLASSE PER GESTIRE LA GENERAZIONE PROCED
         {
             //calcolo la sfera di influenza di orbitee
             PlanetaryObject pianeta = orbitee.GetComponent<PlanetaryObject>();
-            max_distance = moon_distance_mult * fun.get_influence_sphere(pianeta.distance, pianeta.mass, pianeta.parent.mass);
+            max_distance = moon_distance_mult * fun.get_influence_sphere(pianeta.distance,0f, pianeta.mass, pianeta.parent.mass); //CORREGGERE -->TENERE CONTO DI ECCENTRICITA
             //Caso Critico: max_distance dentro il raggio del pianeta
             infra_min = infra_moon_min_distance;
         } else //devo generare dei pianeti
@@ -73,7 +72,7 @@ public class Generator: MonoBehaviour //CLASSE PER GESTIRE LA GENERAZIONE PROCED
         for (int i = 0; i < num_objs; i++) //per ogni oggetto da provare a generare
         {
             //stabilisco il tipo di pianeta da generare
-            PlanetaryObjConfig planet_config = get_random_type(type); //tipo pianeta
+            PlanetaryObjConfig planet_config = get_random_planetary_type(type); //tipo pianeta
             float planet_g = UnityEngine.Random.Range(planet_config.g_min, planet_config.g_max); //usata per calcolare massa dato il raggio
             float planet_radius = UnityEngine.Random.Range(orbitee.GetComponent<Object>().radius * planet_config.radius_scale_min, orbitee.GetComponent<Object>().radius * planet_config.radius_scale_max); //genero raggio in scala rispetto a orbitee
             float planet_rot_vel = UnityEngine.Random.Range(planet_config.vel_rot_min, planet_config.vel_rot_max);
@@ -89,7 +88,7 @@ public class Generator: MonoBehaviour //CLASSE PER GESTIRE LA GENERAZIONE PROCED
                 continue;
             }
             float planet_distance = UnityEngine.Random.Range(new_distance_range.Item1, new_distance_range.Item2);
-            GameObject planetary_obj = obj_gen.initialize_planetary_object(planet_radius, planet_mass, type, fun.RandomString(10), System, planet_distance, orbitee.GetComponent<Rigidbody2D>(), planet_age,
+            GameObject planetary_obj = obj_gen.initialize_planetary_object(planet_radius, planet_mass, type, type + "-" + fun.RandomString(10), System, planet_distance, orbitee.GetComponent<Rigidbody2D>(), planet_age,
                                                      planet_rot_vel, planet_albedo, planet_comp, planet_atm_comp, planet_config.class_name); //creazione oggetto effettivo
             //aggiunta oggetto a lista di orbiters
             orbiters.Add(planetary_obj.GetComponent<Rigidbody2D>());
@@ -165,17 +164,27 @@ public class Generator: MonoBehaviour //CLASSE PER GESTIRE LA GENERAZIONE PROCED
 
     }
 
-    GameObject generate_sun() //generazione stelle 
+    GameObject generate_sun() //generazione oggetti stellari 
      {
-        char spectrum = get_spectrum(fun.stars_spectres); //genero lo spettro
-        GameObject sun = obj_gen.initialize_stellar_object(10f, 50000f, "Star", "Sole", System, 100f, 1f, 10f, spectrum); //HARDCODED per ora
+        StellarObjConfig stellar_config = get_random_stellar_type(); //ottengo tipo di stella randomic0
+        //Genero i valori randomici
+        float star_rot_vel = UnityEngine.Random.Range(stellar_config.vel_rot_min, stellar_config.vel_rot_max);
+        float star_radius = UnityEngine.Random.Range(stellar_config.radius_min, stellar_config.radius_max);
+        float star_g = UnityEngine.Random.Range(stellar_config.g_min, stellar_config.g_max);
+        float star_age = UnityEngine.Random.Range(stellar_config.age_min, stellar_config.age_max);
+        float star_lum = UnityEngine.Random.Range(stellar_config.lum_min, stellar_config.lum_max);
+        float star_temp = UnityEngine.Random.Range(stellar_config.temp_min, stellar_config.temp_max);
+        float star_mass = fun.get_mass(star_g, System.GetComponent<Gravitation>().grav_multiplier, star_radius); //calcolo la massa dati raggio e g
+        //Assegno i valori e creo la stella
+        GameObject sun = obj_gen.initialize_stellar_object(star_radius, star_mass, fun.classificazioneOggetti[1], "SUN-" + fun.RandomString(10), System, star_age, star_rot_vel, star_lum, stellar_config.spectrum, star_temp);
         return sun;
-     }
-    Functions.CompTuple[] generate_comp(string[] comp_data) //genera la composizione dell'oggetto (per ora totalmente randomico)
+
+    }
+   CompTuple[] generate_comp(string[] comp_data) //genera la composizione dell'oggetto (per ora totalmente randomico)
     {
         List<string> comp_list = new List<string>(); //converto l'array in una lista 
         comp_list.AddRange(comp_data);
-        List<Functions.CompTuple> composition = new List<Functions.CompTuple>(); //composizione generata
+        List<CompTuple> composition = new List<CompTuple>(); //composizione generata
         float remaining_percentage = 1f; //per generare una composizione che abbia senso
         while(comp_list.Count > 0) //finche' non ho estratto tutti gli elementi
         {
@@ -188,10 +197,10 @@ public class Generator: MonoBehaviour //CLASSE PER GESTIRE LA GENERAZIONE PROCED
             float rand_composition = UnityEngine.Random.Range(0f, remaining_percentage);
             remaining_percentage -= rand_composition; //sottraggo la composizione estratta
             //aggiungo la composizione alla lista
-            composition.Add(new Functions.CompTuple(element, rand_composition));
+            composition.Add(new CompTuple(element, rand_composition));
         }
         //converto la lista in array
-        Functions.CompTuple[] comp_array = composition.ToArray();
+        CompTuple[] comp_array = composition.ToArray();
         return comp_array;
     }
     
@@ -207,7 +216,7 @@ public class Generator: MonoBehaviour //CLASSE PER GESTIRE LA GENERAZIONE PROCED
         spectrum = spectres[index].Item1;
         return spectrum;
     }
-    PlanetaryObjConfig get_random_type(string type) //per ottenere il file di configurazione di un tipo di pianeta randomico
+    PlanetaryObjConfig get_random_planetary_type(string type) //per ottenere il file di configurazione di un tipo di pianeta randomico
     {
         int index = UnityEngine.Random.Range(0, planetary_config.Count);
 
@@ -215,5 +224,11 @@ public class Generator: MonoBehaviour //CLASSE PER GESTIRE LA GENERAZIONE PROCED
             return planetary_config.ElementAt(index).moon_config;
         }//Caso pianeta
         return planetary_config.ElementAt(index).planet_config;
+    }
+
+    StellarObjConfig get_random_stellar_type() //Per ottenere il file di configurazione di un tipo di stella randomico
+    {
+        int index = UnityEngine.Random.Range(0, stellar_config.Count);
+        return stellar_config.ElementAt(index).stellar_config;
     }
 }

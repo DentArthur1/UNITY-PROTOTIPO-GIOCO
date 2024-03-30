@@ -26,7 +26,7 @@ public class DirectionIndicator : MonoBehaviour //CLASSE PER GESTIRE IL MOVIMENT
         scale_x = arrow.transform.localScale.x; //salvo i valori scale iniziali (x)
         scale_y = arrow.transform.localScale.y; //salvo i valori scale iniziali (y)
         triangle = ship.GetComponent<Triangolo>(); //oggetto triangolo estratto dal tranform
-        max_vec_magnitude = new Vector2(0, triangle.engine_max_vel + triangle.boost_target_offset).magnitude; //magnitudine massima rappresentabile dal vettore grafico
+        max_vec_magnitude = new Vector2(0, triangle.ship_config.Engine.max_vel + triangle.ship_config.Engine.boost_target_offset).magnitude; //magnitudine massima rappresentabile dal vettore grafico
         ship = ship.GetComponent<Rigidbody2D>(); //oggetto RigidBody2d estratto dal transform
     }
     void Update()
@@ -45,17 +45,17 @@ public class DirectionIndicator : MonoBehaviour //CLASSE PER GESTIRE IL MOVIMENT
     }
     void scale_arrow() { //scala la grandezza della freccia in modo che sia costante ai cambiamenti di zoom  e ne applica la magnitudine corretta
         arrow.transform.localScale = fun.scale_obj(scale_x, scale_y * fun.remap_value(ship.velocity.magnitude, 0, max_vec_magnitude, 0, 1), arrow.transform.localScale, cam, cam_stock);
-        engine.transform.localScale = fun.scale_obj(scale_x, scale_y * fun.remap_value((triangle.engine_vel * fun.partition_vect(triangle.direction)).magnitude, 0, max_vec_magnitude, 0, 1), engine.transform.localScale, cam, cam_stock);
-        thruster.transform.localScale = fun.scale_obj(scale_x, scale_y * fun.remap_value((triangle.thruster_vel * fun.partition_vect(triangle.direction)).magnitude, 0, max_vec_magnitude, 0, 1), thruster.transform.localScale, cam, cam_stock);
-        expected.transform.localScale = fun.scale_obj(scale_x, scale_y * fun.remap_value(triangle.vel.magnitude, 0, max_vec_magnitude, 0, 1), expected.transform.localScale, cam, cam_stock);
+        engine.transform.localScale = fun.scale_obj(scale_x, scale_y * fun.remap_value((triangle.ship_config.control_panel.engine_vel * fun.partition_vect(triangle.ship_config.control_panel.direction)).magnitude, 0, max_vec_magnitude, 0, 1), engine.transform.localScale, cam, cam_stock);
+        thruster.transform.localScale = fun.scale_obj(scale_x, scale_y * fun.remap_value((triangle.ship_config.control_panel.thruster_vel * fun.partition_vect(triangle.ship_config.control_panel.direction)).magnitude, 0, max_vec_magnitude, 0, 1), thruster.transform.localScale, cam, cam_stock);
+        expected.transform.localScale = fun.scale_obj(scale_x, scale_y * fun.remap_value(triangle.ship_config.control_panel.vel.magnitude, 0, max_vec_magnitude, 0, 1), expected.transform.localScale, cam, cam_stock);
     }
 
     void rotate_arrows() //ruota la freccia per indicare la direzione attuale della nave
     {
         arrow.transform.up = ship.velocity; //true vel
-        engine.transform.up = triangle.engine_vel * fun.partition_vect(triangle.direction); //engine vel
-        thruster.transform.up = triangle.thruster_vel * fun.partition_vect(triangle.direction + 90); //thruster vel
-        expected.transform.up = triangle.vel; //target vel
+        engine.transform.up = triangle.ship_config.control_panel.engine_vel * fun.partition_vect(triangle.ship_config.control_panel.direction); //engine vel
+        thruster.transform.up = triangle.ship_config.control_panel.thruster_vel * fun.partition_vect(triangle.ship_config.control_panel.direction + 90); //thruster vel
+        expected.transform.up = triangle.ship_config.control_panel.vel; //target vel
     }
 
 }

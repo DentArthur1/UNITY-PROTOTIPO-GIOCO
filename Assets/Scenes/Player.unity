@@ -123,7 +123,7 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &852480224
+--- !u!1 &274072800
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -131,60 +131,10 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 852480226}
-  - component: {fileID: 852480225}
-  m_Layer: 0
-  m_Name: System
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &852480225
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 852480224}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 43a457787bfd5b94490b59eb14bae5f7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  template: {fileID: 7994076195203732788, guid: e133bb0621176374db7d2c9f41e2d7ad, type: 3}
-  grav_range: 10000
-  grav_multiplier: 0.01
-  system: {fileID: 852480224}
-  gen: {fileID: 1271438066}
---- !u!4 &852480226
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 852480224}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -307.99, y: -0.03, z: -0.056813106}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1197489068
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1197489071}
-  - component: {fileID: 1197489070}
-  - component: {fileID: 1197489069}
-  - component: {fileID: 1197489072}
-  - component: {fileID: 1197489073}
+  - component: {fileID: 274072803}
+  - component: {fileID: 274072802}
+  - component: {fileID: 274072801}
+  - component: {fileID: 274072804}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -192,21 +142,21 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!81 &1197489069
+--- !u!81 &274072801
 AudioListener:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1197489068}
+  m_GameObject: {fileID: 274072800}
   m_Enabled: 1
---- !u!20 &1197489070
+--- !u!20 &274072802
 Camera:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1197489068}
+  m_GameObject: {fileID: 274072800}
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
@@ -231,11 +181,11 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: -5
-  far clip plane: 5000
+  near clip plane: 0
+  far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 6
+  orthographic size: 5
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -251,28 +201,28 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
---- !u!4 &1197489071
+--- !u!4 &274072803
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1197489068}
+  m_GameObject: {fileID: 274072800}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -308, y: 0, z: -10}
+  m_LocalPosition: {x: 0, y: 0, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1197489072
+--- !u!114 &274072804
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1197489068}
+  m_GameObject: {fileID: 274072800}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
@@ -310,123 +260,8 @@ MonoBehaviour:
     mipBias: 0
     varianceClampScale: 0.9
     contrastAdaptiveSharpening: 0
---- !u!114 &1197489073
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1197489068}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 05ef0cefe84324e45b2bf4f34c0618a0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  main_cam: {fileID: 1197489070}
-  target: {fileID: 852480226}
-  smooth_follow: 100
-  zoom_scroll: 20
-  zoom_speed: 0.1
-  max_zoom_in: 4
-  max_zoom_out: 100
---- !u!1 &1271438066
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1271438068}
-  - component: {fileID: 1271438067}
-  m_Layer: 0
-  m_Name: SystemGenerator
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1271438067
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1271438066}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8c5a4e29ab307d14c9e2e59780ab74f7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  System: {fileID: 852480224}
-  planet_perturbation_limit: 0.01
-  moon_perturbation_limit: 1.8
-  infra_planet_min_distance: 20.4
-  infra_moon_min_distance: 1
-  moon_distance_mult: 0.1
-  max_system_lenght: 2007
-  max_moons_pp: 3
-  max_planet_ps: 10
-  max_suns_ps: 1
-  planetary_config:
-  - planet_config:
-      albedo_min: 0.054
-      albedo_max: 0.842
-      vel_rot_min: 0.11
-      vel_rot_max: 3.06
-      g_min: 0.94
-      g_max: 2.09
-      radius_scale_min: 0.05
-      radius_scale_max: 0.3
-      age_min: 79
-      age_max: 486
-      class_name: Pianeta Roccioso
-    moon_config:
-      albedo_min: 0.023
-      albedo_max: 0.298
-      vel_rot_min: 1.36
-      vel_rot_max: 4.53
-      g_min: 0.05
-      g_max: 0.2
-      radius_scale_min: 0.05
-      radius_scale_max: 0.3
-      age_min: 38
-      age_max: 260
-      class_name: Luna Rocciosa
-  stellar_config:
-  - stellar_config:
-      vel_rot_min: 0.4
-      vel_rot_max: 13.3
-      g_min: 15.1
-      g_max: 33.5
-      radius_min: 10.1
-      radius_max: 20.5
-      age_min: 8633
-      age_max: 44604
-      lum_min: 108
-      lum_max: 1007
-      temp_min: 1511
-      temp_max: 3022
-      spectrum: 77
---- !u!4 &1271438068
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1271438066}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -308.23, y: -0.09114583, z: -0.15479293}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
-  - {fileID: 1197489071}
-  - {fileID: 1271438068}
-  - {fileID: 852480226}
+  - {fileID: 274072803}

@@ -1,9 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Object : MonoBehaviour //SUPERCLASSE DEGLI OGGETTI PIANETA, STELLA DOPO LA GENERAZIONE CON ObjectGenerator e Generator
 {
+    public Functions fun = new Functions();
+    public float G_COST; //costante gravitazionale UNIVERSALE
     public float radius; //raggio oggetto *
     public float density; //densita' oggetto  
     public float volume; //volume oggetto (calcolato internamente)

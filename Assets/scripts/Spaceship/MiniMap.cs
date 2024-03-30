@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MiniMap : MonoBehaviour
 {
@@ -21,6 +22,12 @@ public class MiniMap : MonoBehaviour
     public float radar_scan_time; //tempo totale timer radar
     private string[] map_filter; //array di stringhe contenente gli oggetti da non mostrare sulla mappa 
     private (GameObject[], (float, float)[]) info; //tupla contentente i dati degli oggetti trovati dal radar + le coordinate su schermo dei loro rispettivi target da disegnare sulla mappa
+
+    //SLIDER
+    public GameObject map_range_slider; //Selettore range mappa
+    public float max_range;
+    public float min_range;
+
     void Start()
     {
         cam = Camera.main;
@@ -30,6 +37,9 @@ public class MiniMap : MonoBehaviour
         cam_stock = cam.orthographicSize; //zoom iniziale camera
         radar_time = radar_scan_time; //settaggio timer iniziale
         map_filter = new string[] { "Proiettile", "Triangle" }; //settaggio filtro mappa
+        //Settaggio Slider
+        map_range_slider.GetComponent<Slider>().maxValue = max_range;
+        map_range_slider.GetComponent<Slider>().minValue = min_range;
     }
 
     void Update()
@@ -45,7 +55,7 @@ public class MiniMap : MonoBehaviour
         }
         move_targets(); //muovo i target con la mappa
         fun.timing(ref radar_time, radar_scan_time); //faccio scorrere il timer
-
+        map_range = map_range_slider.GetComponent<Slider>().value;
     }
 
     void rotate_triangle() //ruota il triangolo in base alla rotazione della nave

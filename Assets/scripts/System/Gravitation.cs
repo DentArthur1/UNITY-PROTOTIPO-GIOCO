@@ -1,8 +1,6 @@
-using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Rendering.VirtualTexturing;
 
 public class Gravitation : MonoBehaviour //Classe per gestire l'attrazione gravitazionale tra i grandi corpi nello spazio (Classe Gesu' Cristo)
 {
@@ -39,45 +37,18 @@ public class Gravitation : MonoBehaviour //Classe per gestire l'attrazione gravi
     }
 
     //CALCOLO ATTRAZIONE GRAVITAZIONALE(Legge universale di gravitazione)
-    Vector2 get_dist_vector(GameObject star, GameObject planet) //calcolo il vettore distanza tra i due oggetti
-    {
-        Vector2 dist_vector = planet.transform.position - star.transform.position;
-        return dist_vector;
-    }
-    Vector2 calculate_versor(GameObject star, GameObject planet) //calcola il versore dall'oggetto star all'oggetto planet (vettore distanza normalizzato)
-    {
-        Vector2 dist_vector = get_dist_vector(star, planet);
-        float dist_vector_mag = dist_vector.magnitude; //calcolo la magnitudine del vettore distanza tra i due oggetti
-        Vector2 versor = dist_vector / dist_vector_mag; //calcolo il versore
-        return versor;
-    }
-
-    Vector2 calculate_force(GameObject star, GameObject planet) //calcola la forza che l'oggetto star esercita sull'oggetto planet
-    {
-        float mass_product = star.GetComponent<Rigidbody2D>().mass * planet.GetComponent<Rigidbody2D>().mass; //calcola il prodotto delle masse dei due oggetti
-        Vector2 versor = calculate_versor(star, planet); //versore tra i due oggetti
-        Vector2 grav_force = -grav_multiplier * (mass_product / Mathf.Pow(get_dist_vector(star, planet).magnitude, 2)) * versor; //calcolo la forza applicata su planet, esercitata da star
-        return grav_force;
-    }
-
-
+   
     void apply_gravitation(GameObject star, GameObject planet) //applica la forza esercitata da star su planet (Metodo Wrapper)
     {
-        Vector2 force = calculate_force(star, planet);
+        Vector2 force = fun.calculate_grav_force(star, planet, grav_multiplier);
         planet.GetComponent<Rigidbody2D>().AddForce(force);
     }
     void gravitation() //calcola e applica tutte le forze gravitazionali attive su tutti gli oggetti presenti nel sistema
     {
-        foreach (var sole in system_list) {
-            calculate_gravitations(sole.Key.gameObject);
-            foreach(var planet in sole.Value)
-            {
-                calculate_gravitations(planet.Key.gameObject);
-                foreach(var moon in planet.Value)
-                {
-                    calculate_gravitations(moon.gameObject);
-                }
-            }
+        Collider2D[] objs = Physics2D.OverlapCircleAll(system.transform.position, grav_range); //ottengo tutti gli oggetti che collidono con la sfera immaginaria
+        foreach (Collider2D obj in objs)
+        {
+            calculate_gravitations(obj.gameObject);
         }
     }
 
@@ -102,27 +73,15 @@ public class Gravitation : MonoBehaviour //Classe per gestire l'attrazione gravi
                 {
                     apply_init_vel(planet.Key.transform, moon.transform); //velocita' orbita luna-->pianeta
                     moon.velocity += planet_vel; //velocita' orbita luna = velocita' orbita luna-->pianeta + velocita' orbita pianeta-->sole
+                    moon.gameObject.GetComponent<PlanetaryObject>().initial_velocity += planet_vel;
                 }
             }
         }
     }
 
-    Vector2 calculate_vel(Transform sun, Transform planet) //calcola la velocita' tangenziale iniziale necessaria all'oggetto planet per orbitare attorno all'oggetto sun 
-    {
-        
-        //ottengo vettore perpendicolare alla forza gravitazionale
-        Vector2 grav_force = calculate_force(sun.gameObject, planet.gameObject); //forza di attrazione esercitata dall'oggetto SUN sull'oggetto PIANETA
-        //ne calcolo il vettore perpendicolare e lo normalizzo
-        Vector2 perp_grav_force = grav_force.Perpendicular1().normalized;
-        //calcolo velocita' tangenziale per il mantenimento dell'orbita
-        float planet_vel = Mathf.Sqrt(grav_multiplier * ((sun.GetComponent<Object>().mass + planet.GetComponent<Object>().mass) / Vector3.Distance(sun.position, planet.position)));//-->ottenuta mettendo Fg == Fc
-        Vector2 planet_vect = perp_grav_force * planet_vel; //vettore velocita' tangenziale
-        return planet_vect;
-    }
-
     Vector2 apply_init_vel(Transform sun, Transform planet) //applica la velocita' tangenziale iniziale necessaria all'oggetto planet per orbitare attorno all'oggetto sun
     {
-        Vector2 planet_vect = calculate_vel(sun, planet);
+        Vector2 planet_vect = planet.gameObject.GetComponent<PlanetaryObject>().initial_velocity;
         planet.GetComponent<Rigidbody2D>().velocity = planet_vect; //applico la velocita
         //per ogni luna che orbita attorno al pianeta, calcolo la loro velocita' orbitale attorno al pianeta
         return planet_vect;

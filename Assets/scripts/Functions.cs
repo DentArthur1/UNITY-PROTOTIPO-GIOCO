@@ -1,8 +1,9 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
+using Unity.VisualScripting;
+using UnityEditor.ShaderGraph.Legacy;
 using UnityEngine;
+using static UnityEngine.Rendering.HableCurve;
 
 public class Functions //CLASSE FUNZIONI DI SUPPORTO
 {
@@ -87,21 +88,58 @@ public class Functions //CLASSE FUNZIONI DI SUPPORTO
         return (Mathf.Pow(radius, 2) * g) / grav_mult;
     } 
 
-    public float get_T(float distance, float grav_mult, float mass, Rigidbody2D parent = null) //calcola il periodo di rivoluzione dell'oggetto
+    public float get_T(float semi_major_axis, float grav_mult, float mass, Rigidbody2D parent = null) //calcola il periodo di rivoluzione dell'oggetto
     {
         if (parent != null) //ovvero se l'oggetto e' un pianeta o una luna
         {
-            return (2 * Mathf.PI) * Mathf.Sqrt(Mathf.Pow(distance, 3) / (grav_mult * (parent.mass + mass)));
+            return (2 * Mathf.PI) * Mathf.Sqrt(Mathf.Pow(semi_major_axis, 3) / (grav_mult * (parent.mass + mass))); 
         }
         return 0;
-        //in realta distance sarebbe la media tra il punto piu' vicino e piu lontato dal sole del pianeta
-
     }
-    public float get_escape_vel(float grav_mult, float radius, float mass) //calcola la velocita' di fuga
+    public float get_escape_vel(float g, float radius) //calcola la velocita' di fuga sulla superficie dell'oggetto
     {
-        return Mathf.Sqrt((2 * grav_mult * mass) / radius);
+        return Mathf.Sqrt(2 * g * radius);
     }
 
+    public Vector2 get_orbital_vel(GameObject sun, GameObject planet, float grav_mult) //Calcola la velocità orbitale necessaria all'oggetto per ottenere un orbita stabile
+    {
+        Vector2 grav_force = calculate_grav_force(sun, planet, grav_mult);
+        Vector2 perp_grav_force = grav_force.Perpendicular1().normalized;
+        float planet_vel = Mathf.Sqrt((grav_mult * (sun.GetComponent<Rigidbody2D>().mass + planet.GetComponent<Rigidbody2D>().mass)) / (planet.transform.position - sun.transform.position).magnitude);
+        Vector2 planet_vel_vector = perp_grav_force * planet_vel;
+        return planet_vel_vector;
+    }
+    public float get_angular_vel(float delta_angle, float delta_time)
+    {
+        return delta_angle / delta_time;
+
+    }
+    public Vector2 calculate_grav_force(GameObject sun, GameObject planet, float grav_mult) //Calcola l'attrazione gravitazionale che il corpo sun esercita su planet
+    {
+        //Ottengo vettore distanza normalizzato
+        Vector2 dist_vector = (planet.transform.position - sun.transform.position);
+        Vector2 dist_vector_normalized = dist_vector.normalized;
+
+        float mass_product = sun.GetComponent<Rigidbody2D>().mass * planet.GetComponent<Rigidbody2D>().mass;
+        Vector2 grav_force = - grav_mult * (mass_product / Mathf.Pow(dist_vector.magnitude, 2)) * dist_vector_normalized;
+        return grav_force;
+    }
+    //Calcolo orbita eccentrica
+    public Vector2 get_eccentricity(Vector2 orbital_vector, Vector2 distance_vector, float grav_parameter, float orbital_momentum) //Calcola l'eccentricità dell'orbita di orbiter
+    {
+        float eccentricity_x = (distance_vector.x / distance_vector.magnitude) - ((orbital_momentum * orbital_vector.y) / grav_parameter);
+        float eccentricity_y = (distance_vector.y / distance_vector.magnitude) + ((orbital_momentum * orbital_vector.x) / grav_parameter);
+        return new Vector2(eccentricity_x, eccentricity_y);
+    }
+    public float get_semi_major_axis(float grav_parameter, float vel, float distance) //Ottiene semi-asse maggiore orbita ellittica
+    {
+        return (grav_parameter * distance) / ((2 * grav_parameter) - (distance * vel * vel));
+    }
+    public float get_orbital_momentum(Vector2 orbital_vector, Vector2 distance_vector) //Ottiene momento orbitale specifico
+    {
+        return distance_vector.x * orbital_vector.y - distance_vector.y * orbital_vector.x;
+    }
+    //Fine calcolo orbita eccentrica
     public float get_volume(float radius) //calcola il volume dell'oggetto (formula volume sfera)
     {
          return 4 / 3 * Mathf.PI * Mathf.Pow(radius, 3);
@@ -119,10 +157,9 @@ public class Functions //CLASSE FUNZIONI DI SUPPORTO
         }
         return r;
     }
-
-    public float get_influence_sphere(float distance, float mass_planet, float mass_star) //calcola il raggio di influenza del pianeta tenendo conto del corpo attorno a cui orbita(stella) --> con eccentricità trascurabile***
+    public float get_influence_sphere(float semi_major_axis, float eccentricity, float mass_planet, float mass_star) //calcola il raggio di influenza del pianeta tenendo conto del corpo attorno a cui orbita(stella)
     {
-        return distance * Mathf.Pow(mass_planet / (3 * mass_star), 1f / 3f);
+        return semi_major_axis * (1 - eccentricity) * Mathf.Pow(mass_planet / (3 * (mass_star + mass_planet)), 1f / 3f);
     }
     public float get_expected_temp(GameObject planet, GameObject sun) //calcola la temperatura di equilibrio del pianeta
     {
@@ -158,7 +195,7 @@ public class Functions //CLASSE FUNZIONI DI SUPPORTO
             .Select(s => s[rand.Next(s.Length)]).ToArray());
     }
     //COSTANTI
-    public const double G = 6.67430e-11; //costante di attrazione gravitazionale universale
+    public float G; //costante di attrazione gravitazionale universale
     public (char, float)[] stars_spectres = new (char, float)[]{('M', 0.765f),
                                                                 ('K', 0.121f),
                                                                 ('G', 0.076f),
@@ -230,10 +267,100 @@ public class Functions //CLASSE FUNZIONI DI SUPPORTO
     }
 
     [System.Serializable]
-    public struct PlanetaryConfig //struttura wrapper di personalizzazione generazione oggetti
+    public struct PlanetaryConfig //struttura wrapper di personalizzazione generazione oggetti planetari
     {
         public PlanetaryObjConfig planet_config; //versione pianeta
         public PlanetaryObjConfig moon_config; //versione luna
+    }
+
+    [System.Serializable]
+    public struct StellarObjConfig //Struttura di personalizzazione generazione oggetto stellare
+    {
+        [Range(0f, 100f)] public float vel_rot_min; //limite minimo generazione velocita' di rotazione oggetto
+        [Range(0f, 100f)] public float vel_rot_max; //limite massimo generazione velocita' di rotazione oggetto
+        [Range(0f, 100f)] public float g_min; //limite minimo generazione accelerazione grav. superficiale
+        [Range(0f, 100f)] public float g_max; //limite massimo generazione accelerazione grav. superficiale
+        [Range(0f, 30f)] public float radius_min; //limite minimo generazione raggio 
+        [Range(0f, 30f)] public float radius_max; //limite massimo generazione raggio 
+        [Range(0f, 100000f)] public float age_min; //limite minimo generazione age
+        [Range(0f, 100000f)] public float age_max; //limite massimo generazione age
+        [Range(0f, 10000f)] public float lum_min; //limite minimo  generazione luminosità oggetto stellare
+        [Range(0f, 10000f)] public float lum_max; //limite massimo generazione luminosità oggetto stellare
+        [Range(0f, 10000f)] public float temp_min; //limite minimo  generazione temperatura oggetto stellare
+        [Range(0f, 10000f)] public float temp_max; //limite massimo generazione temperatura oggetto stellare
+        public char spectrum; //Classificazione oggetto stellare
+    }
+
+    [System.Serializable]
+    public struct StellarConfig //struttura wrapper di personalizzazione generazione oggetti stellari
+    {
+        public StellarObjConfig stellar_config; 
+
+    }
+    //Navicella
+    [System.Serializable]
+    public struct ShipMotorConfig //struct di configurazione motori nave
+    {
+        [Range(0f, 100f)] public float acc;  //accelerazione 
+        [Range(0f, 100f)] public float max_vel; //velocita' massima
+        [Range(-100f, 100f)] public float min_vel; //velocita' massima 
+        [Range(0f, 100f)] public float dead_zone; //intervallo di velocita' nel quale il flight_assist opera per automaticamente azzerare la velocita'
+        [Range(0f, 100f)] public float boost_target_offset; //offset di velocita' massimo ottenuto con il boost
+        [Range(0f, 100f)] public float boost_acc; //accelerazione boost(velocita' con cui raggiunge boost_target_offset)
+        [Range(0f, 100f)] public float boost_dec; //decelerazione boost(velocita' con cui il boost termina i suoi effetti)
+        [Range(0f, 100f)] public float boost_cooldown; //tempo di cooldown per il booster
+    }
+    [System.Serializable]
+    public struct ShipWeaponConfig //Struct di configurazione arsenale nave
+    {
+        [Range(0f, 100f)] public float cooldown_time; //tempo di cooldown tra un un utilizzo e l'altro(non troppo piccolo)
+        [Range(0f, 100f)] public float bullet_speed;  //velocita' oggetto
+        [Range(0f, 100f)] public float bullet_spawn_vert; //offset di spawn dell'oggetto(lungo la direzione della nave)
+        [Range(0f, 100f)] public float time_to_destroy; //tempo oltre il quale l'oggetto si autodistrugge
+
+    }
+    [System.Serializable]
+    public struct ShipControlPanel //Struct di variabili della nava
+    {
+        //Engine
+        public float engine_vel; //velocita' corrente della nave
+        public float last_engine_vel; //velocita' engine al momento dell'attivazione del boost(per tornare a quel punto dopo che il booster ha finito)
+        public float boost_increment; //incremento attuale alla velocita' massima
+        public float boost_time; //variabile timer booster principale
+        public bool boost_bool; //booleano che indica se il boost e' attivo
+        public bool unboost_bool; //Booleano che indica se il de-boost e' attivo
+        //Thruster
+        public float thruster_vel; //velocita' corrente di spostamento laterale
+        public float last_thruster_vel; //usata per il booster laterale
+        public float lat_boost_target_offset; //offset di velocita' laterale massimo attuale(puo essere positivo o negativo)
+        public float lat_boost_increment; //incremento attuale alla velocita' laterale massima
+        public float lat_boost_time; //variabile timer booster laterale
+        public bool lat_boost_bool; //booleano che indica se il boost laterale e' attivo
+        public bool lat_unboost_bool; //booleano che indica se il de-boost laterale e' attivo
+        //Misc
+        public Vector3 vel;   //Vettore spostamento nave 
+        public bool flight_assist; //azzeramento automatico thruster e rotazione
+        public bool motor_switch; //accensione spegnimento motore
+        public float direction; //variabile direzione nave(angolo)
+        public float wep_time; //tempo prima che si puo' sparare 
+
+    }
+
+    [System.Serializable]
+    public struct ShipMiscConfig //Struct di configurazione valori misc
+    {
+        public float rot_vel;
+        public float flight_assist_efficiency;
+    }
+    [System.Serializable]
+    public struct ShipConfig
+    {
+        public ShipMotorConfig Engine;
+        public ShipMotorConfig Thruster;
+        public ShipMiscConfig misc;
+        public ShipWeaponConfig projectile;
+        public ShipControlPanel control_panel;
+
     }
 
 }
