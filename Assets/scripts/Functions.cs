@@ -1,9 +1,7 @@
 using System;
 using System.Linq;
 using Unity.VisualScripting;
-using UnityEditor.ShaderGraph.Legacy;
 using UnityEngine;
-using static UnityEngine.Rendering.HableCurve;
 
 public class Functions //CLASSE FUNZIONI DI SUPPORTO
 {
