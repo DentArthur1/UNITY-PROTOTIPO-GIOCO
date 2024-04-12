@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6338983157039487331}
   - component: {fileID: 4485638653677191924}
   m_Layer: 0
-  m_Name: ProvaPalette
+  m_Name: RectangularTilemap
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
