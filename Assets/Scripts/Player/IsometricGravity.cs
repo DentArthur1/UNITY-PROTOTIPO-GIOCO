@@ -51,7 +51,7 @@ public class IsometricGravity : MonoBehaviour //Classe per simulare una gravita'
             else
             {
                 target_rb.position = physics_data.fall_point; //setto la posizione precisa, per ritornare al punto di prima
-                target_rb.velocity = Vector2.zero;  //fermo l'oggetto
+                target_rb.linearVelocity = Vector2.zero;  //fermo l'oggetto
                 physics_data.on_air = false;
                
             }
@@ -107,7 +107,7 @@ public class IsometricGravity : MonoBehaviour //Classe per simulare una gravita'
 
     public void recalculate_physics(GameObject target, IsoPhysicsObject physics_data) //ricalcolo 
     {
-        physics_call(physics_data, calculate_freefall_point(target), target.GetComponent<Rigidbody2D>().velocity);
+        physics_call(physics_data, calculate_freefall_point(target), target.GetComponent<Rigidbody2D>().linearVelocity);
     }
 
     public bool check_infinity_fall(GameObject body) //metodo per distinguere i casi di fall infinito

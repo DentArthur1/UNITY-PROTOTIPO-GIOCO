@@ -5,14 +5,14 @@ public class PlanetaryObject : Object //Classe per gestire i corpi planetari
 {
     //FARE UNA STRUCT
     public Rigidbody2D parent; //corpo attorno al quale object orbita
-    public Vector2 initial_velocity; //Velocità iniziale corpo planetario
-    public Vector2 absolute_vector; //Vettore velocità assoluta corpo planetario
-    public float absolute_vel; //magnitudine vettore velocità assoluta
-    public Vector2 orbital_vector; //Vettore velocità orbitale corpo planetario
-    public float orbital_vel; //magnitudine vettore velocità orbitale
+    public Vector2 initial_velocity; //Velocitï¿½ iniziale corpo planetario
+    public Vector2 absolute_vector; //Vettore velocitï¿½ assoluta corpo planetario
+    public float absolute_vel; //magnitudine vettore velocitï¿½ assoluta
+    public Vector2 orbital_vector; //Vettore velocitï¿½ orbitale corpo planetario
+    public float orbital_vel; //magnitudine vettore velocitï¿½ orbitale
     public float relative_angle; //Angolo relativo oggetto rispetto alla posizione del padre
     public float period; //tempo di rivoluzione attorno alla stella (calcolato internamente)
-    public float eccentricity; //Eccentricità orbita oggetto
+    public float eccentricity; //Eccentricitï¿½ orbita oggetto
     public float apoapsis; //Afelio orbita
     public float periapsis; //Perielio orbita
     public float semi_major_axis; //semi asse maggiore ellisse
@@ -27,7 +27,7 @@ public class PlanetaryObject : Object //Classe per gestire i corpi planetari
     public string class_; //tipo del pianeta (roccioso, gigante gassoso, waterworld, earthlike, etc)
     public float albedo; //percentuale di luce riflessa dal pianeta (no stelle)
 
-    //Misurazione velocità angolare
+    //Misurazione velocitï¿½ angolare
     private float last_angle;
     private float last_time;
 
@@ -37,7 +37,7 @@ public class PlanetaryObject : Object //Classe per gestire i corpi planetari
         last_angle = relative_angle;
         last_time = Time.time;
     }
-    void FixedUpdate() //FIXED perchè mi baso su oggetti regolati da fisica
+    void FixedUpdate() //FIXED perchï¿½ mi baso su oggetti regolati da fisica
     {
         update_values();
     }
@@ -45,7 +45,7 @@ public class PlanetaryObject : Object //Classe per gestire i corpi planetari
     void update_values() //Aggiorno i valori orbitali del corpo
     {
         distance_vector = this.GetComponent<Rigidbody2D>().position - parent.position;
-        absolute_vector = this.GetComponent<Rigidbody2D>().velocity;
+        absolute_vector = this.GetComponent<Rigidbody2D>().linearVelocity;
         absolute_vel = absolute_vector.magnitude;
         distance = distance_vector.magnitude;
         compute_mass_center();
@@ -68,10 +68,10 @@ public class PlanetaryObject : Object //Classe per gestire i corpi planetari
         }
     }
 
-    void measure_orbital_velocity() //misuro la velocità angolare basandomi sull'ultimo intervallo di tempo e di relative_angle appena trascorso
+    void measure_orbital_velocity() //misuro la velocitï¿½ angolare basandomi sull'ultimo intervallo di tempo e di relative_angle appena trascorso
     {
         measure_relative_angle(); //ottengo l'angolo relativo attuale dell'oggetto in    
-        //calcolo velocità orbitale
+        //calcolo velocitï¿½ orbitale
         float delta_angle = relative_angle - last_angle;
         float delta_time = Time.time - last_time;
         orbital_vel = (delta_angle / delta_time) * Mathf.Deg2Rad * distance;

@@ -44,7 +44,7 @@ public class DirectionIndicator : MonoBehaviour //CLASSE PER GESTIRE IL MOVIMENT
         fun.anchor_obj(expected, anchor_x, anchor_y, cam); //Ancora la posizione della freccia target vel alle coordinate specificate sullo schermo
     }
     void scale_arrow() { //scala la grandezza della freccia in modo che sia costante ai cambiamenti di zoom  e ne applica la magnitudine corretta
-        arrow.transform.localScale = fun.scale_obj(scale_x, scale_y * fun.remap_value(ship.velocity.magnitude, 0, max_vec_magnitude, 0, 1), arrow.transform.localScale, cam, cam_stock);
+        arrow.transform.localScale = fun.scale_obj(scale_x, scale_y * fun.remap_value(ship.linearVelocity.magnitude, 0, max_vec_magnitude, 0, 1), arrow.transform.localScale, cam, cam_stock);
         engine.transform.localScale = fun.scale_obj(scale_x, scale_y * fun.remap_value((triangle.ship_config.control_panel.engine_vel * fun.partition_vect(triangle.ship_config.control_panel.direction)).magnitude, 0, max_vec_magnitude, 0, 1), engine.transform.localScale, cam, cam_stock);
         thruster.transform.localScale = fun.scale_obj(scale_x, scale_y * fun.remap_value((triangle.ship_config.control_panel.thruster_vel * fun.partition_vect(triangle.ship_config.control_panel.direction)).magnitude, 0, max_vec_magnitude, 0, 1), thruster.transform.localScale, cam, cam_stock);
         expected.transform.localScale = fun.scale_obj(scale_x, scale_y * fun.remap_value(triangle.ship_config.control_panel.vel.magnitude, 0, max_vec_magnitude, 0, 1), expected.transform.localScale, cam, cam_stock);
@@ -52,7 +52,7 @@ public class DirectionIndicator : MonoBehaviour //CLASSE PER GESTIRE IL MOVIMENT
 
     void rotate_arrows() //ruota la freccia per indicare la direzione attuale della nave
     {
-        arrow.transform.up = ship.velocity; //true vel
+        arrow.transform.up = ship.linearVelocity; //true vel
         engine.transform.up = triangle.ship_config.control_panel.engine_vel * fun.partition_vect(triangle.ship_config.control_panel.direction); //engine vel
         thruster.transform.up = triangle.ship_config.control_panel.thruster_vel * fun.partition_vect(triangle.ship_config.control_panel.direction + 90); //thruster vel
         expected.transform.up = triangle.ship_config.control_panel.vel; //target vel

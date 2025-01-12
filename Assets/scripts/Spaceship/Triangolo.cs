@@ -5,6 +5,7 @@ using static Functions;
 
 public class Triangolo : MonoBehaviour //COMANDI --> W/S Acc. Avanti e indientro | A/D Acc. Destra e Sinistra | MOUSE Rotazione destra e sinistra
 {
+
     //RIFERIMENTI
     public Rigidbody2D triangle;  //oggetto nave
     public Functions fun = new Functions(); //per le funzioni ausiliarie
@@ -22,7 +23,7 @@ public class Triangolo : MonoBehaviour //COMANDI --> W/S Acc. Avanti e indientro
 
     void print_values() //Testo a schermo di valori (DEBUG A SCHERMO)
     {
-        vector.text = "Vec: " + triangle.velocity;engine.text = "Eng: " + ship_config.control_panel.engine_vel; thruster.text = "Thr: " + ship_config.control_panel.thruster_vel; weapon.text = "Wep: " + ship_config.control_panel.wep_time; boost.text = "Boost: " + ship_config.control_panel.boost_time; lat_boost.text = "Lat Boost: " + ship_config.control_panel.lat_boost_time;
+        vector.text = "Vec: " + triangle.linearVelocity;engine.text = "Eng: " + ship_config.control_panel.engine_vel; thruster.text = "Thr: " + ship_config.control_panel.thruster_vel; weapon.text = "Wep: " + ship_config.control_panel.wep_time; boost.text = "Boost: " + ship_config.control_panel.boost_time; lat_boost.text = "Lat Boost: " + ship_config.control_panel.lat_boost_time;
         boost_boolean.text = "Boost bool: " + ship_config.control_panel.boost_bool; unboost_boolean.text = "Unboost bool: " + ship_config.control_panel.unboost_bool; latboost_boolean.text = "Lat boost bool: " + ship_config.control_panel.lat_boost_bool; latunboost_boolean.text = "Lat unboost bool: " + ship_config.control_panel.lat_unboost_bool;
         flight_assist_boolean.text = "Flight assist: " + ship_config.control_panel.flight_assist; FPS.text = "FPS: " + 1f / Time.deltaTime; 
         MotorSwitch.text = "Motor Switch: " + ship_config.control_panel.motor_switch;
@@ -52,7 +53,7 @@ public class Triangolo : MonoBehaviour //COMANDI --> W/S Acc. Avanti e indientro
    
     void update_vel(){ //modifica la posizione del triangolo sullo schermo
          get_real_vel(); //ottengo il vettore congiunto di forze
-         triangle.AddForce(ship_config.control_panel.vel - new Vector3(triangle.velocity.x, triangle.velocity.y, 0)); //le forze congiunte di thruster e engine alla nave sottratte alla velocità attuale --> Per limitare l'aggiunta di forze e mantenere la velocità costante
+         triangle.AddForce(ship_config.control_panel.vel - new Vector3(triangle.linearVelocity.x, triangle.linearVelocity.y, 0)); //le forze congiunte di thruster e engine alla nave sottratte alla velocità attuale --> Per limitare l'aggiunta di forze e mantenere la velocità costante
     }
     Vector3 get_mouse_pos(){ //ottiene la posizione del mouse (coordinate pixel su schermo) e ne converte le coordinate nella loro controparte in mondo di gioco
          return Camera.main.ScreenToWorldPoint(Input.mousePosition); 

@@ -3,9 +3,9 @@ using static Functions;
 public class Player : IsoPhysicsObject //Classe per gestire il movimento del player
 {
 
-    [Range(0f, 20f)] public float walking_speed; //velocità di camminata
-    [Range(0f, 50f)] public float running_speed; //velocità di corsa
-    [Range(0f, 20f)] public float chrouching_speed; //velocità di chrouch
+    [Range(0f, 20f)] public float walking_speed; //velocitï¿½ di camminata
+    [Range(0f, 50f)] public float running_speed; //velocitï¿½ di corsa
+    [Range(0f, 20f)] public float chrouching_speed; //velocitï¿½ di chrouch
     [Range(0f, 1000f)] public float jump_speed; //forza salto
 
     //Variabile di stato
@@ -23,7 +23,7 @@ public class Player : IsoPhysicsObject //Classe per gestire il movimento del pla
 
     //Variabili player
     Vector2 player_direction;
-    float actual_speed; //velocità attuale
+    float actual_speed; //velocitï¿½ attuale
 
     void Start()
     {
@@ -88,17 +88,17 @@ public class Player : IsoPhysicsObject //Classe per gestire il movimento del pla
     {
         if (jumping)
         {
-            IsoGravity.physics_call(this, rb.position, rb.velocity); //physics call
+            IsoGravity.physics_call(this, rb.position, rb.linearVelocity); //physics call
             jumping = false;
             rb.AddForce(Vector3.up * jump_speed);
         } 
     }
 
-    void crouch() //Attiva modalità di crouch
+    void crouch() //Attiva modalitï¿½ di crouch
     {
         if (crouching)
         {
-            IsoGravity.physics_call(this, new Vector2(rb.position.x, rb.position.y - (player_sprite.size.y / 2)), rb.velocity); //physics call
+            IsoGravity.physics_call(this, new Vector2(rb.position.x, rb.position.y - (player_sprite.size.y / 2)), rb.linearVelocity); //physics call
             crouching = false;
         }
         actual_speed = chrouching_speed;
@@ -126,7 +126,7 @@ public class Player : IsoPhysicsObject //Classe per gestire il movimento del pla
         }
         if (!on_air) //se il player non e' in aria o non e' gia fermo gli applico la sua velocita' attuale
         {
-            rb.velocity = (player_direction * actual_speed);
+            rb.linearVelocity = (player_direction * actual_speed);
         }
     }
 }

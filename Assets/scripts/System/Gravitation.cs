@@ -72,7 +72,7 @@ public class Gravitation : MonoBehaviour //Classe per gestire l'attrazione gravi
                 foreach(var moon in planet.Value)
                 {
                     apply_init_vel(planet.Key.transform, moon.transform); //velocita' orbita luna-->pianeta
-                    moon.velocity += planet_vel; //velocita' orbita luna = velocita' orbita luna-->pianeta + velocita' orbita pianeta-->sole
+                    moon.linearVelocity += planet_vel; //velocita' orbita luna = velocita' orbita luna-->pianeta + velocita' orbita pianeta-->sole
                     moon.gameObject.GetComponent<PlanetaryObject>().initial_velocity += planet_vel;
                 }
             }
@@ -82,7 +82,7 @@ public class Gravitation : MonoBehaviour //Classe per gestire l'attrazione gravi
     Vector2 apply_init_vel(Transform sun, Transform planet) //applica la velocita' tangenziale iniziale necessaria all'oggetto planet per orbitare attorno all'oggetto sun
     {
         Vector2 planet_vect = planet.gameObject.GetComponent<PlanetaryObject>().initial_velocity;
-        planet.GetComponent<Rigidbody2D>().velocity = planet_vect; //applico la velocita
+        planet.GetComponent<Rigidbody2D>().linearVelocity = planet_vect; //applico la velocita
         //per ogni luna che orbita attorno al pianeta, calcolo la loro velocita' orbitale attorno al pianeta
         return planet_vect;
     }
